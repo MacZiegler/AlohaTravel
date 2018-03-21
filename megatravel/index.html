@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="keywords" content="Toby, Ziegler, Toby Ziegler, TobyZiegler, designer, developer, programmer, graphic, graphics, manager, project manager, technology manager">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="Reservations for traveling with MegaTravel Unincorporated">
+    <meta name="author" content="Toby Ziegler">
+    <title>MegaTravel Reservations</title>
+
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <!-- Bootstrap links found on the home page of https://getbootstrap.com/ -->
+
+    <!-- css styling -->
+    <style>
+        .parallax {
+            height: 500px;
+            /* fallback for older browsers */
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-perspective: 300px;
+            perspective: 300px;
+        }
+
+        .parallaxpart {
+            position: relative;
+            height: 500px;
+            /* fallback for older browsers */
+            height: 100vh;
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+        }
+
+        .parallaxlayer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .frontitem {
+      -webkit-transform: translateZ(90px) scale(.7);
+      transform: translateZ(90px) scale(.7);
+      z-index: 1;
+    }
+
+        .photoback {
+            position: fixed;
+            background: url('images/planeneargate.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            -webkit-transform: translateZ(-600px) scale(3);
+            transform: translateZ(-600px) scale(3);
+            z-index: 4;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="parallax">
+        <div class="parallaxpart">
+            <div class="parallaxlayer photoback"></div>
+            <div class="parallaxlayer frontitem">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <h1>
+                                <a href="#">MegaTravel Reservations</a>
+                            </h1>
+                        </div>
+                        <div class="col-sm-8"></div>
+                        <div class="col-sm-2">
+                            <a class="home" href="" rel="tooltip" data-placement="bottom" data-original-title="Home"></a>
+                            <a class="blog" href="" rel="tooltip" data-placement="bottom" data-original-title="Blog"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end header / row one -->
+
+            <div class="parallaxlayer frontitem">
+                <div class="container">
+                    <div class="row">
+                        <div class="register col-sm">
+                            <h2>Make your reservation
+                                <span>
+                                    <img src="images/megatravelogo.png" class="img-thumbnail" alt="Mega Travel Logo">
+                                </span>
+                            </h2>
+                            <form action="#">
+                                <div class="form-group">
+                                    <label for="firstname">First Name</label>
+                                    <input class="form-control" type="text" id="firstname" name="firstname" placeholder="enter your first name...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastname">Last Name</label>
+                                    <input class="form-control" type="text" id="lastname" name="lastname" placeholder="enter your first name...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input class="form-control" type="text" id="username" name="username" placeholder="choose a username...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input class="form-control" type="text" id="email" name="email" placeholder="enter your email...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input class="form-control" type="password" id="password" name="password" placeholder="choose a password...">
+                                </div>
+                                <button type="submit">RESERVE</button>
+                            </form>
+                        </div>
+                        <!-- end register box -->
+                        <div class="col-sm">
+                            <img src="../fullscreen-register/assets/img/iphone.png" alt="">
+                        </div>
+                        <!-- end iphone box -->
+                    </div>
+                    <!-- end row two -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- end parallax -->
+
+    <!-- jQuery, Popper, Bootstrap and custom javascript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <!-- <script src="fullscreen-register/assets/js/scripts.js"></script> -->
+
+</body>
+
+</html>
