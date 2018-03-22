@@ -44,10 +44,10 @@
         }
 
         .frontitem {
-      -webkit-transform: translateZ(90px) scale(.7);
-      transform: translateZ(90px) scale(.7);
-      z-index: 1;
-    }
+            -webkit-transform: translateZ(90px) scale(.7);
+            transform: translateZ(90px) scale(.7);
+            z-index: 1;
+        }
 
         .photoback {
             position: fixed;
@@ -58,6 +58,26 @@
             transform: translateZ(-600px) scale(3);
             z-index: 4;
         }
+
+        body {
+            font-family: Verdana, Tahoma, Geneva, sans-serif;
+        }
+
+        .display-1,
+        .display-2,
+        .display-3,
+        .display-4 {
+            font-weight: bolder;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-weight: bold;
+        }
     </style>
 
 </head>
@@ -66,29 +86,102 @@
     <div class="parallax">
         <div class="parallaxpart">
             <div class="parallaxlayer photoback"></div>
-            <div class="parallaxlayer frontitem">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <h1>
-                                <a href="#">MegaTravel Reservations</a>
-                            </h1>
-                        </div>
-                        <div class="col-sm-8"></div>
-                        <div class="col-sm-2">
-                            <a class="home" href="" rel="tooltip" data-placement="bottom" data-original-title="Home"></a>
-                            <a class="blog" href="" rel="tooltip" data-placement="bottom" data-original-title="Blog"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end header / row one -->
+
+            <nav class="navbar navbar-expand-sm bg-primary navbar-light">
+                <a class="navbar-brand" href="#">
+                    <img src="images/megatravelogo.png" alt="Mega Travel Logo" style="width:2.5rem;">
+                </a>
+                <!-- Links -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link 1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link 2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link 3</a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- end navbar -->
 
             <div class="parallaxlayer frontitem">
                 <div class="container">
                     <div class="row">
                         <div class="register col-sm">
                             <h2>Make your reservation
+                                <span>
+                                    <img src="images/megatravelogo.png" class="img-thumbnail" alt="Mega Travel Logo">
+                                </span>
+                            </h2>
+                            <form action="#">
+                                <div class="form-group">
+                                    <label for="destination">Choose a destination:</label>
+                                    <select class="form-control" id="destination" name="destination">
+                                        <option>Brisbane</option>
+                                        <option>Vancouver</option>
+                                        <option>New York City</option>
+                                        <option>Berlin</option>
+                                        <option>Cancun</option>
+                                    </select>
+                                </div>
+
+                                <p>Select your activities:</p>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" value="">Option 1
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" value="">Option 2
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" value="">Option 3
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" value="">Option 4
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" value="">Option 5
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="adults">Number of Adults:</label>
+                                    <input class="form-control" type="number" id="adults" name="adults" placeholder="how many grown-ups...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="children">Number of Children:</label>
+                                    <input class="form-control" type="number" id="children" name="children" placeholder="how many kids...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="datedepart">Date to Depart:</label>
+                                    <input class="form-control" type="date" id="datedepart" name="datedepart" placeholder="enter your email...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="datereturn">Password</label>
+                                    <input class="form-control" type="date" id="datereturn" name="datereturn" placeholder="choose a password...">
+                                </div>
+                                <button class="float-sm-left btn-secondary" type="reset">Reset</button>
+                                <button class="float-sm-right btn-primary" type="accept">Accept Trip Details</button>
+                            </form>
+                        </div>
+                        <!-- end choice box -->
+                        <div class="col-sm">
+                            <img src="../fullscreen-register/assets/img/iphone.png" alt="">
+                            <!-- replace the iphone with a map function -->
+                        </div>
+                        <!-- end iphone box -->
+                        <div class="register col-sm">
+                            <h2>Enter your contact information
                                 <span>
                                     <img src="images/megatravelogo.png" class="img-thumbnail" alt="Mega Travel Logo">
                                 </span>
@@ -103,25 +196,22 @@
                                     <input class="form-control" type="text" id="lastname" name="lastname" placeholder="enter your first name...">
                                 </div>
                                 <div class="form-group">
-                                    <label for="username">Username</label>
-                                    <input class="form-control" type="text" id="username" name="username" placeholder="choose a username...">
-                                </div>
-                                <div class="form-group">
                                     <label for="email">Email</label>
                                     <input class="form-control" type="text" id="email" name="email" placeholder="enter your email...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input class="form-control" type="text" id="username" name="username" placeholder="choose a username...">
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password</label>
                                     <input class="form-control" type="password" id="password" name="password" placeholder="choose a password...">
                                 </div>
-                                <button type="submit">RESERVE</button>
+                                <button class="float-sm-left btn-secondary" type="reset">Reset</button>
+                                <button class="float-sm-right btn-success" type="submit">Submit</button>
                             </form>
                         </div>
                         <!-- end register box -->
-                        <div class="col-sm">
-                            <img src="../fullscreen-register/assets/img/iphone.png" alt="">
-                        </div>
-                        <!-- end iphone box -->
                     </div>
                     <!-- end row two -->
                 </div>
