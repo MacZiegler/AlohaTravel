@@ -1,84 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app>
 
 <head>
 
     <meta charset="utf-8">
     <meta name="keywords" content="Toby, Ziegler, Toby Ziegler, TobyZiegler, designer, developer, programmer, graphic, graphics, manager, project manager, technology manager">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta name="description" content="Reservations for traveling with MegaTravel Unincorporated">
+    <meta name="description" content="Reservations for traveling with AlohaTravel Unincorporated">
     <meta name="author" content="Toby Ziegler">
-    <title>MegaTravel Reservations</title>
+    <title>AlohaTravel Reservations</title>
 
     <!-- Bootstrap css -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
     <!-- Bootstrap links found on the home page of https://getbootstrap.com/ -->
 
+    <!-- angularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <!-- angularJS links found on the collected page at https://code.angularjs.org/1.6.9 and/or the home page -->
+
     <!-- css styling -->
-    <style>
-        .parallax {
-            height: 500px;
-            /* fallback for older browsers */
-            min-height: 100vh;
-            overflow-x: hidden;
-            -webkit-perspective: 300px;
-            perspective: 300px;
-        }
-
-        .parallaxpart {
-            position: relative;
-            height: 500px;
-            /* fallback for older browsers */
-            height: 100vh;
-            -webkit-transform-style: preserve-3d;
-            transform-style: preserve-3d;
-        }
-
-        .parallaxlayer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-        }
-
-        .frontitem {
-            -webkit-transform: translateZ(90px) scale(.7);
-            transform: translateZ(90px) scale(.7);
-            z-index: 1;
-        }
-
-        .photoback {
-            position: fixed;
-            background: url('images/planeneargate.jpg');
-            background-repeat: no-repeat;
-            background-size: cover;
-            -webkit-transform: translateZ(-600px) scale(3);
-            transform: translateZ(-600px) scale(3);
-            z-index: 4;
-        }
-
-        body {
-            font-family: Verdana, Tahoma, Geneva, sans-serif;
-        }
-
-        .display-1,
-        .display-2,
-        .display-3,
-        .display-4 {
-            font-weight: bolder;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-weight: bold;
-        }
-    </style>
+    <script src="css/alohatravelstyles.css"></script>
 
 </head>
 
@@ -89,8 +31,8 @@
 
             <nav class="navbar navbar-expand-sm bg-primary navbar-light">
                 <a class="navbar-brand" href="#">
-                    <img src="images/megatravelogo.svg" alt="Mega Travel Logo" style="width:2.5rem;">
-                    <!-- logo found at http://www.gtoad.com/gallery/omega-travel-logo/ -->
+                    <img src="images/alohatravelogo.svg" alt="Aloha Travel Logo">
+                    <!-- original logo found at http://www.gtoad.com/gallery/omega-travel-logo/ -->
                     <!-- ...and at https://thelogocompany.net/portfolio/ -->
                 </a>
                 <!-- Links -->
@@ -112,12 +54,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="register col-sm">
-                            <h2>Make your reservation
-                                <span>
-                                    <img src="images/megatravelogo.svg" class="img-thumbnail" alt="Mega Travel Logo">
-                                </span>
-                            </h2>
-                            <form action="#">
+                            <h3>Make your reservation</h3>
+                            <form class="textbox" action="#">
                                 <div class="form-group">
                                     <label for="destination">Choose a destination:</label>
                                     <select class="form-control" id="destination" name="destination">
@@ -156,39 +94,75 @@
                                     </label>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="adults">Number of Adults:</label>
-                                    <input class="form-control" type="number" id="adults" name="adults" placeholder="how many grown-ups...">
+                                <div class="row form-inline">
+                                    <div class="col">
+                                        <div class="form-group form-inline">
+                                            <label for="adults">Adults:</label>
+                                            <select class="form-control" type="number" id="adults" name="adults">
+                                                <option>0</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                                <option>6</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="form-group form-inline">
+                                            <label for="children">Children:</label>
+                                            <select class="form-control" type="number" id="children" name="children">
+                                                <option>0</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                                <option>6</option>
+                                                <option>7</option>
+                                                <option>8</option>
+                                                <option>9</option>
+                                                <option>10</option>
+                                                <option>11</option>
+                                                <option>12</option>
+                                                <option>13</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="children">Number of Children:</label>
-                                    <input class="form-control" type="number" id="children" name="children" placeholder="how many kids...">
+
+                                <div class="row form-inline py-2">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="datedepart">Depart:</label>
+                                            <input class="form-control" type="date" id="datedepart" name="datedepart" placeholder="enter your email...">
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="datereturn">Return:</label>
+                                            <input class="form-control" type="date" id="datereturn" name="datereturn" placeholder="choose a password...">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="datedepart">Date to Depart:</label>
-                                    <input class="form-control" type="date" id="datedepart" name="datedepart" placeholder="enter your email...">
-                                </div>
-                                <div class="form-group">
-                                    <label for="datereturn">Password</label>
-                                    <input class="form-control" type="date" id="datereturn" name="datereturn" placeholder="choose a password...">
-                                </div>
+
                                 <button class="float-sm-left btn-secondary" type="reset">Reset</button>
                                 <button class="float-sm-right btn-primary" type="accept">Accept Trip Details</button>
                             </form>
                         </div>
                         <!-- end choice box -->
                         <div class="col-sm">
-                            <img src="../fullscreen-register/assets/img/iphone.png" alt="">
+                            <img class="mx-auto" src="images/alohatravelogo.svg" class="img-thumbnail" alt="Aloha Travel Logo">
+                            <img class="mx-auto" src="../fullscreen-register/assets/img/iphone.png" alt="iphone temp">
                             <!-- replace the iphone with a map function -->
                         </div>
                         <!-- end iphone box -->
                         <div class="register col-sm">
-                            <h2>Enter your contact information
-                                <span>
-                                    <img src="images/megatravelogo@0.5x.png" class="img-thumbnail" alt="Mega Travel Logo">
-                                </span>
-                            </h2>
-                            <form action="#">
+                            <h3>Enter your contact information</h3>
+                            <form class="textbox" action="#">
                                 <div class="form-group">
                                     <label for="firstname">First Name</label>
                                     <input class="form-control" type="text" id="firstname" name="firstname" placeholder="enter your first name...">
