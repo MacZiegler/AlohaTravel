@@ -23,9 +23,38 @@
     <script>
         var app = angular.module('alohaApp', []);
         app.controller('JourneyController', function ($scope) {
-            $scope.shortname = "Brisbane",
-                $scope.longname = "Brisbane, Australia",
-                $scope.activities = ["City Tours", "Sports", "Cycling", "Museums", "Boating"]
+            $scope.places = [
+                {
+                    "shortname": "Brisbane",
+                    "longname": "Brisbane, Australia",
+                    "filename": "destbrisbane.jpg",
+                    "activities": ["City Tours", "Sports", "Cycling", "Museums", "Boating"]
+                },
+                {
+                    "shortname": "Vancouver",
+                    "longname": "Vancouver, Canada",
+                    "filename": "destvancouver.jpg",
+                    "activities": ["Museums", "Sailing", "Beach", "Hiking", "Boating"]
+                },
+                {
+                    "shortname": "New York City",
+                    "longname": "New York City, United States",
+                    "filename": "destnewyorkcity.jpg",
+                    "activities": ["Museums", "Theatre", "Parks and Recreation", "City Tours"]
+                },
+                {
+                    "shortname": "Berlin",
+                    "longname": "Berlin, Germany",
+                    "filename": "destberlin.jpg",
+                    "activities": ["City Tours", "Museums", "Cycling"]
+                },
+                {
+                    "shortname": "Cancun",
+                    "longname": "Cancun, Mexico",
+                    "filename": "destcancun.jpg",
+                    "activities": ["Parks and Recreation", "Beaches", "Boating", "Snorkeling"]
+                }
+            ]
         });
     </script>
 
@@ -67,9 +96,10 @@
                         <h3>Make your reservation</h3>
                         <form class="textbox" action="#">
                             <div class="form-group">
-                                <label for="destination">Choose a destination: {{ shortname }}</label>
-                                <input class="form-control" type="text" id="destination" name="destination" ng-model="shortname">
-                                <!-- <select class="form-control" id="destination" name="destination" ng-model="shortname">
+                                <label for="destination">Choose a destination:</label>
+                                <select ng-model="selectedplace" ng-options="x.shortname for x in places"></select>
+                                <!-- <input class="form-control" type="text" id="destination" name="destination" ng-model="shortname"> -->
+                                <!-- <select class="form-control" id="destination" name="destination" ng-model="places.shortname">
                                     <option>Brisbane</option>
                                     <option>Vancouver</option>
                                     <option>New York City</option>
@@ -77,31 +107,12 @@
                                     <option>Cancun</option>
                                 </select> -->
                             </div>
+                            <p>NameCheck: {{ selectedplace.shortname }} selected.</p>
 
                             <p>Select your activities:</p>
-                            <div class="form-check">
+                            <div class="form-check" ng-repeat="fun in selectedplace.activities">
                                 <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" value="">Option 1
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" value="">Option 2
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" value="">Option 3
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" value="">Option 4
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" value="">Option 5
+                                    <input type="checkbox" class="form-check-input" value="{{ fun }}" ng-bind="fun.activities">{{ fun }}
                                 </label>
                             </div>
 
@@ -109,7 +120,7 @@
                                 <div class="col">
                                     <div class="form-group form-inline">
                                         <label for="adults">Adults:</label>
-                                        <select class="form-control" type="number" id="adults" name="adults">
+                                        <select class="form-control" type="number" id="adults" name="adults" ng-bind="places.adults">
                                             <option>0</option>
                                             <option>1</option>
                                             <option>2</option>
@@ -163,70 +174,58 @@
                             <button class="float-sm-left btn btn-secondary" type="reset">Reset</button>
                             <button class="float-sm-right btn btn-primary" type="accept">Accept Trip Details</button>
                         </form>
-                        <!-- Testing div for angularJS -->
-                        <div>
-                            <h3>Test Results:</h3>
-                            <ul>
-                                <li ng-repeat="fun in activities">
-                                    Destination: {{ fun }}
-                                </li>
-                                <!-- <li ng-repeat="visit in places">
-                                    Destination: {{ visit.shortname }}
-                                </li> -->
-                            </ul>
                         </div>
+                        <!-- end choice box -->
+                        <div class="col-sm">
+                            <img class="mx-auto" ng-src="images/{{ selectedplace.filename }}" alt="Vacation Photo">
+                            <p>{{ selectedplace.longname }}</p>
+                            <img class="mx-auto" src="images/alohatravelogo.svg" class="img-thumbnail" alt="Aloha Travel Logo">
+                            <!-- <img class="mx-auto" src="images/iphone.png" alt="iphone temp"> -->
+                            <!-- replace the iphone with a map function -->
+                        </div>
+                        <!-- end iphone box -->
+                        <div class="col-sm">
+                            <h3>Enter your contact information</h3>
+                            <form class="textbox" action="#">
+                                <div class="form-group">
+                                    <label for="firstname">First Name</label>
+                                    <input class="form-control" type="text" id="firstname" name="firstname" placeholder="enter your first name...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastname">Last Name</label>
+                                    <input class="form-control" type="text" id="lastname" name="lastname" placeholder="enter your last name...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input class="form-control" type="text" id="email" name="email" placeholder="enter your email...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input class="form-control" type="text" id="username" name="username" placeholder="choose a username...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input class="form-control" type="password" id="password" name="password" placeholder="choose a password...">
+                                </div>
+                                <button class="float-sm-left btn btn-secondary" type="reset">Reset</button>
+                                <button class="float-sm-right btn btn-success" type="submit">Submit</button>
+                            </form>
+                        </div>
+                        <!-- end register box -->
                     </div>
-                    <!-- end choice box -->
-                    <div class="col-sm">
-                        <img class="mx-auto" ng-src="images/dest{{ shortname | lowercase | nospaces }}.jpg" class="img-thumbnail" alt="Vacation Photo">
-                        <p>{{ longname }}</p>
-                        <img class="mx-auto" src="images/alohatravelogo.svg" class="img-thumbnail" alt="Aloha Travel Logo">
-                        <img class="mx-auto" src="images/iphone.png" alt="iphone temp">
-                        <!-- replace the iphone with a map function -->
-                    </div>
-                    <!-- end iphone box -->
-                    <div class="col-sm">
-                        <h3>Enter your contact information</h3>
-                        <form class="textbox" action="#">
-                            <div class="form-group">
-                                <label for="firstname">First Name</label>
-                                <input class="form-control" type="text" id="firstname" name="firstname" placeholder="enter your first name...">
-                            </div>
-                            <div class="form-group">
-                                <label for="lastname">Last Name</label>
-                                <input class="form-control" type="text" id="lastname" name="lastname" placeholder="enter your last name...">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input class="form-control" type="text" id="email" name="email" placeholder="enter your email...">
-                            </div>
-                            <div class="form-group">
-                                <label for="username">Username</label>
-                                <input class="form-control" type="text" id="username" name="username" placeholder="choose a username...">
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input class="form-control" type="password" id="password" name="password" placeholder="choose a password...">
-                            </div>
-                            <button class="float-sm-left btn btn-secondary" type="reset">Reset</button>
-                            <button class="float-sm-right btn btn-success" type="submit">Submit</button>
-                        </form>
-                    </div>
-                    <!-- end register box -->
+                    <!-- end row two -->
                 </div>
-                <!-- end row two -->
             </div>
         </div>
-    </div>
-    <!-- end parallax -->
+        <!-- end parallax -->
 
-    <!-- jQuery, Popper, Bootstrap and custom javascript -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+        <!-- jQuery, Popper, Bootstrap and custom javascript -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 
 </body>
 
