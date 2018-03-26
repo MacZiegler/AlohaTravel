@@ -1,27 +1,29 @@
-[
-  {
-    "longname":"Brisbane, Australia",
-    "shortname":"Brisbane",
-    "activities":"City Tours, Sports, Cycling, Museums, Boating"
-  },
-  {
-    "name":"Vancouver, Canada",
-    "shortname":"Vancouver",
-    "activities":"Museums, Sailing, Beach, Hiking, Boating"
-  },
-  {
-    "name":"New York City, United States",
-    "shortname":"New York City",
-    "activities":"Museums, Theatre, Parks and Recreation, City Tours"
-  },
-  {
-    "name":"Berlin, Germany",
-    "shortname":"Berlin",
-    "activities":"City Tours, Museums, Cycling"
-  },
-  {
-    "name":"Cancun, Mexico",
-    "shortname":"Cancun",
-    "activities":"Parks and Recreation, Beaches, Boating, Snorkeling"
-  }
-]
+{
+  "records": [
+    {
+      "longname": "Brisbane, Australia",
+      "shortname": "Brisbane",
+      "activities": [ "City Tours", "Sports", "Cycling", "Museums", "Boating" ]
+    },
+    {
+      "name": "Vancouver, Canada",
+      "shortname": "Vancouver",
+      "activities": [ "Museums", "Sailing", "Beach", "Hiking", "Boating" ]
+    },
+    {
+      "name": "New York City, United States",
+      "shortname": "New York City",
+      "activities": [ "Museums", "Theatre", "Parks and Recreation", "City Tours" ]
+    },
+    {
+      "name": "Berlin, Germany",
+      "shortname": "Berlin",
+      "activities": [ "City Tours", "Museums", "Cycling" ]
+    },
+    {
+      "name": "Cancun, Mexico",
+      "shortname": "Cancun",
+      "activities": [ "Parks and Recreation", "Beaches", "Boating", "Snorkeling" ]
+    }
+  ]
+}

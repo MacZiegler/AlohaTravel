@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app>
+<html lang="en">
 
 <head>
 
@@ -10,190 +10,201 @@
     <meta name="author" content="Toby Ziegler">
     <title>AlohaTravel Reservations</title>
 
-    <!-- Bootstrap css -->
+    <!-- Bootstrap css, links found on the home page of https://getbootstrap.com/  -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
-    <!-- Bootstrap links found on the home page of https://getbootstrap.com/ -->
-
-    <!-- angularJS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <!-- angularJS links found on the collected page at https://code.angularjs.org/1.6.9 and/or the home page -->
-
     <!-- css styling -->
-    <script src="css/alohatravelstyles.css"></script>
+    <link rel="stylesheet" href="css/alohatravelstyles.css">
+
+    <!-- angularJS, links found on the home page at https://angularjs.org/ -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="js/app.js"></script>
 
 </head>
 
-<body>
-    <div class="parallax">
-        <div class="parallaxpart">
-            <div class="parallaxlayer photoback"></div>
+<body ng-app="alohaApp" ng-controller="JourneyController">
+    <!-- <div class="parallax"> -->
+    <div class="container-flex">
+        <!-- <div class="parallaxpart"> -->
+        <div class="photoback"></div>
+        <!-- <div class="parallaxlayer photoback"></div> -->
 
-            <nav class="navbar navbar-expand-sm bg-primary navbar-light">
-                <a class="navbar-brand" href="#">
-                    <img src="images/alohatravelogo.svg" alt="Aloha Travel Logo">
-                    <!-- original logo found at http://www.gtoad.com/gallery/omega-travel-logo/ -->
-                    <!-- ...and at https://thelogocompany.net/portfolio/ -->
-                </a>
-                <!-- Links -->
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link 1</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link 2</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link 3</a>
-                    </li>
-                </ul>
-            </nav>
-            <!-- end navbar -->
+        <nav class="navbar navbar-expand-sm bg-primary navbar-light">
+            <a class="navbar-brand" href="#">
+                <img src="images/alohatravelogo.svg" alt="Aloha Travel Logo" style="width:7rem">
+                <!-- original logo found at http://www.gtoad.com/gallery/omega-travel-logo/ -->
+                <!-- ...and at https://thelogocompany.net/portfolio/ -->
+            </a>
+            <!-- Links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link 1</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link 2</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link 3</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- end navbar -->
 
-            <div class="parallaxlayer frontitem">
-                <div class="container">
-                    <div class="row">
-                        <div class="register col-sm">
-                            <h3>Make your reservation</h3>
-                            <form class="textbox" action="#">
-                                <div class="form-group">
-                                    <label for="destination">Choose a destination:</label>
-                                    <select class="form-control" id="destination" name="destination">
-                                        <option>Brisbane</option>
-                                        <option>Vancouver</option>
-                                        <option>New York City</option>
-                                        <option>Berlin</option>
-                                        <option>Cancun</option>
-                                    </select>
-                                </div>
+        <div>
+            <!-- <div class="parallaxlayer frontitem" ng-controller="JourneyController"> -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        <h3>Make your reservation</h3>
+                        <form class="textbox" action="#">
+                            <div class="form-group">
+                                <label for="destination">Choose a destination: {{ journey.shortname }}</label>
+                                <!-- <input class="form-control" type="text" id="destination" name="destination" ng-model="journey"> -->
+                                <select class="form-control" id="destination" name="destination" ng-model="journey.shortname">
+                                    <option>Brisbane</option>
+                                    <option>Vancouver</option>
+                                    <option>New York City</option>
+                                    <option>Berlin</option>
+                                    <option>Cancun</option>
+                                </select>
+                            </div>
 
-                                <p>Select your activities:</p>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" value="">Option 1
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" value="">Option 2
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" value="">Option 3
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" value="">Option 4
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" value="">Option 5
-                                    </label>
-                                </div>
+                            <p>Select your activities:</p>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" value="">Option 1
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" value="">Option 2
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" value="">Option 3
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" value="">Option 4
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" value="">Option 5
+                                </label>
+                            </div>
 
-                                <div class="row form-inline">
-                                    <div class="col">
-                                        <div class="form-group form-inline">
-                                            <label for="adults">Adults:</label>
-                                            <select class="form-control" type="number" id="adults" name="adults">
-                                                <option>0</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                                <option>6</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="form-group form-inline">
-                                            <label for="children">Children:</label>
-                                            <select class="form-control" type="number" id="children" name="children">
-                                                <option>0</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                                <option>6</option>
-                                                <option>7</option>
-                                                <option>8</option>
-                                                <option>9</option>
-                                                <option>10</option>
-                                                <option>11</option>
-                                                <option>12</option>
-                                                <option>13</option>
-                                            </select>
-                                        </div>
+                            <div class="row form-inline">
+                                <div class="col">
+                                    <div class="form-group form-inline">
+                                        <label for="adults">Adults:</label>
+                                        <select class="form-control" type="number" id="adults" name="adults">
+                                            <option>0</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                            <option>6</option>
+                                        </select>
                                     </div>
                                 </div>
 
-                                <div class="row form-inline py-2">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label for="datedepart">Depart:</label>
-                                            <input class="form-control" type="date" id="datedepart" name="datedepart" placeholder="enter your email...">
-                                        </div>
+                                <div class="col">
+                                    <div class="form-group form-inline">
+                                        <label for="children">Children:</label>
+                                        <select class="form-control" type="number" id="children" name="children">
+                                            <option>0</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                            <option>6</option>
+                                            <option>7</option>
+                                            <option>8</option>
+                                            <option>9</option>
+                                            <option>10</option>
+                                            <option>11</option>
+                                            <option>12</option>
+                                            <option>13</option>
+                                        </select>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label for="datereturn">Return:</label>
-                                            <input class="form-control" type="date" id="datereturn" name="datereturn" placeholder="choose a password...">
-                                        </div>
+                            <div class="row form-inline py-2">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="datedepart">Depart:</label>
+                                        <input class="form-control" type="date" id="datedepart" name="datedepart" placeholder="enter your email...">
                                     </div>
                                 </div>
 
-                                <button class="float-sm-left btn-secondary" type="reset">Reset</button>
-                                <button class="float-sm-right btn-primary" type="accept">Accept Trip Details</button>
-                            </form>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="datereturn">Return:</label>
+                                        <input class="form-control" type="date" id="datereturn" name="datereturn" placeholder="choose a password...">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="float-sm-left btn-secondary" type="reset">Reset</button>
+                            <button class="float-sm-right btn-primary" type="accept">Accept Trip Details</button>
+                        </form>
+                        <!-- Testing div for angularJS -->
+                        <div>
+                            <h3>Test Results:</h3>
+                            <ul>
+                                <li ng-repeat="place in journey">
+                                    Destination: {{ place.shortname }}
+                                </li>
+                            </ul>
                         </div>
-                        <!-- end choice box -->
-                        <div class="col-sm">
-                            <img class="mx-auto" src="images/alohatravelogo.svg" class="img-thumbnail" alt="Aloha Travel Logo">
-                            <img class="mx-auto" src="../fullscreen-register/assets/img/iphone.png" alt="iphone temp">
-                            <!-- replace the iphone with a map function -->
-                        </div>
-                        <!-- end iphone box -->
-                        <div class="register col-sm">
-                            <h3>Enter your contact information</h3>
-                            <form class="textbox" action="#">
-                                <div class="form-group">
-                                    <label for="firstname">First Name</label>
-                                    <input class="form-control" type="text" id="firstname" name="firstname" placeholder="enter your first name...">
-                                </div>
-                                <div class="form-group">
-                                    <label for="lastname">Last Name</label>
-                                    <input class="form-control" type="text" id="lastname" name="lastname" placeholder="enter your first name...">
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input class="form-control" type="text" id="email" name="email" placeholder="enter your email...">
-                                </div>
-                                <div class="form-group">
-                                    <label for="username">Username</label>
-                                    <input class="form-control" type="text" id="username" name="username" placeholder="choose a username...">
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input class="form-control" type="password" id="password" name="password" placeholder="choose a password...">
-                                </div>
-                                <button class="float-sm-left btn-secondary" type="reset">Reset</button>
-                                <button class="float-sm-right btn-success" type="submit">Submit</button>
-                            </form>
-                        </div>
-                        <!-- end register box -->
                     </div>
-                    <!-- end row two -->
+                    <!-- end choice box -->
+                    <div class="col-sm">
+                        <img class="mx-auto" ng-src="images/dest{{ place.shortname | lowercase | nospaces }}.jpg" class="img-thumbnail" alt="{{ journey.longname }} Photo">
+                        <p>{{ place.longname }}</p>
+                        <img class="mx-auto" src="images/alohatravelogo.svg" class="img-thumbnail" alt="Aloha Travel Logo">
+                        <img class="mx-auto" src="images/iphone.png" alt="iphone temp">
+                        <!-- replace the iphone with a map function -->
+                    </div>
+                    <!-- end iphone box -->
+                    <div class="col-sm">
+                        <h3>Enter your contact information</h3>
+                        <form class="textbox" action="#">
+                            <div class="form-group">
+                                <label for="firstname">First Name</label>
+                                <input class="form-control" type="text" id="firstname" name="firstname" placeholder="enter your first name...">
+                            </div>
+                            <div class="form-group">
+                                <label for="lastname">Last Name</label>
+                                <input class="form-control" type="text" id="lastname" name="lastname" placeholder="enter your first name...">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input class="form-control" type="text" id="email" name="email" placeholder="enter your email...">
+                            </div>
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input class="form-control" type="text" id="username" name="username" placeholder="choose a username...">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input class="form-control" type="password" id="password" name="password" placeholder="choose a password...">
+                            </div>
+                            <button class="float-sm-left btn-secondary" type="reset">Reset</button>
+                            <button class="float-sm-right btn-success" type="submit">Submit</button>
+                        </form>
+                    </div>
+                    <!-- end register box -->
                 </div>
+                <!-- end row two -->
             </div>
         </div>
-
     </div>
     <!-- end parallax -->
 
@@ -204,7 +215,6 @@
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-    <!-- <script src="fullscreen-register/assets/js/scripts.js"></script> -->
 
 </body>
 

@@ -1,11 +1,15 @@
 /*
  * style sheet for the alohatravel project
  * Author: Toby Ziegler
- * Author URI: http://tobyziegler.com
+ * Author url: http://tobyziegler.com
  */
 
 body {
     font-family: Verdana, Tahoma, Geneva, sans-serif;
+    /* background: url('../images/planeneargate.jpg'); */
+    /* position: fixed; */
+    /* background-repeat: no-repeat; */
+    /* background-size: cover; */
 }
 
 .display-1,
@@ -66,7 +70,7 @@ h6 {
 
 .photoback {
     position: fixed;
-    background: url('images/planeneargate.jpg');
+    background: url('../images/planeneargate.jpg');
     /* photo courtesy https://pixabay.com/en/plane-aircraft-airport-jet-3107132/ */
     background-repeat: no-repeat;
     background-size: cover;
