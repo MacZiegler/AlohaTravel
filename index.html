@@ -18,7 +18,16 @@
 
     <!-- angularJS, links found on the home page at https://angularjs.org/ -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <script src="js/app.js"></script>
+    <!-- <script src="js/app.js"></script> -->
+
+    <script>
+        var app = angular.module('alohaApp', []);
+        app.controller('JourneyController', function ($scope) {
+            $scope.shortname = "Brisbane",
+                $scope.longname = "Brisbane, Australia",
+                $scope.activities = ["City Tours", "Sports", "Cycling", "Museums", "Boating"]
+        });
+    </script>
 
 </head>
 
@@ -58,15 +67,15 @@
                         <h3>Make your reservation</h3>
                         <form class="textbox" action="#">
                             <div class="form-group">
-                                <label for="destination">Choose a destination: {{ journey.shortname }}</label>
-                                <!-- <input class="form-control" type="text" id="destination" name="destination" ng-model="journey"> -->
-                                <select class="form-control" id="destination" name="destination" ng-model="journey.shortname">
+                                <label for="destination">Choose a destination: {{ shortname }}</label>
+                                <input class="form-control" type="text" id="destination" name="destination" ng-model="shortname">
+                                <!-- <select class="form-control" id="destination" name="destination" ng-model="shortname">
                                     <option>Brisbane</option>
                                     <option>Vancouver</option>
                                     <option>New York City</option>
                                     <option>Berlin</option>
                                     <option>Cancun</option>
-                                </select>
+                                </select> -->
                             </div>
 
                             <p>Select your activities:</p>
@@ -151,23 +160,26 @@
                                 </div>
                             </div>
 
-                            <button class="float-sm-left btn-secondary" type="reset">Reset</button>
-                            <button class="float-sm-right btn-primary" type="accept">Accept Trip Details</button>
+                            <button class="float-sm-left btn btn-secondary" type="reset">Reset</button>
+                            <button class="float-sm-right btn btn-primary" type="accept">Accept Trip Details</button>
                         </form>
                         <!-- Testing div for angularJS -->
                         <div>
                             <h3>Test Results:</h3>
                             <ul>
-                                <li ng-repeat="place in journey">
-                                    Destination: {{ place.shortname }}
+                                <li ng-repeat="fun in activities">
+                                    Destination: {{ fun }}
                                 </li>
+                                <!-- <li ng-repeat="visit in places">
+                                    Destination: {{ visit.shortname }}
+                                </li> -->
                             </ul>
                         </div>
                     </div>
                     <!-- end choice box -->
                     <div class="col-sm">
-                        <img class="mx-auto" ng-src="images/dest{{ place.shortname | lowercase | nospaces }}.jpg" class="img-thumbnail" alt="{{ journey.longname }} Photo">
-                        <p>{{ place.longname }}</p>
+                        <img class="mx-auto" ng-src="images/dest{{ shortname | lowercase | nospaces }}.jpg" class="img-thumbnail" alt="Vacation Photo">
+                        <p>{{ longname }}</p>
                         <img class="mx-auto" src="images/alohatravelogo.svg" class="img-thumbnail" alt="Aloha Travel Logo">
                         <img class="mx-auto" src="images/iphone.png" alt="iphone temp">
                         <!-- replace the iphone with a map function -->
@@ -182,7 +194,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="lastname">Last Name</label>
-                                <input class="form-control" type="text" id="lastname" name="lastname" placeholder="enter your first name...">
+                                <input class="form-control" type="text" id="lastname" name="lastname" placeholder="enter your last name...">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
@@ -196,8 +208,8 @@
                                 <label for="password">Password</label>
                                 <input class="form-control" type="password" id="password" name="password" placeholder="choose a password...">
                             </div>
-                            <button class="float-sm-left btn-secondary" type="reset">Reset</button>
-                            <button class="float-sm-right btn-success" type="submit">Submit</button>
+                            <button class="float-sm-left btn btn-secondary" type="reset">Reset</button>
+                            <button class="float-sm-right btn btn-success" type="submit">Submit</button>
                         </form>
                     </div>
                     <!-- end register box -->
