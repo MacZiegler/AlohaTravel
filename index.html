@@ -24,6 +24,12 @@
         var app = angular.module('alohaApp', []);
         app.controller('JourneyController', function ($scope) {
             $scope.places = [
+            {
+                    "shortname": "Anywhere!",
+                    "longname": "Your vacation awaits...",
+                    "filename": "destunknown.jpg",
+                    "activities": ""
+                },
                 {
                     "shortname": "Brisbane",
                     "longname": "Brisbane, Australia",
@@ -97,30 +103,24 @@
                         <form class="textbox" action="#">
                             <div class="form-group">
                                 <label for="destination">Choose a destination:</label>
-                                <select ng-model="selectedplace" ng-options="x.shortname for x in places"></select>
-                                <!-- <input class="form-control" type="text" id="destination" name="destination" ng-model="shortname"> -->
-                                <!-- <select class="form-control" id="destination" name="destination" ng-model="places.shortname">
-                                    <option>Brisbane</option>
-                                    <option>Vancouver</option>
-                                    <option>New York City</option>
-                                    <option>Berlin</option>
-                                    <option>Cancun</option>
-                                </select> -->
+                                <select ng-model="selectedplace" ng-options="city.shortname for city in places">
+                                        <option value="">Anywhere!</option>
+                                </select>
                             </div>
                             <p>NameCheck: {{ selectedplace.shortname }} selected.</p>
 
                             <p>Select your activities:</p>
-                            <div class="form-check" ng-repeat="fun in selectedplace.activities">
+                            <div class="form-check pb-2" ng-repeat="fun in selectedplace.activities">
                                 <label class="form-check-label">
                                     <input type="checkbox" class="form-check-input" value="{{ fun }}" ng-bind="fun.activities">{{ fun }}
                                 </label>
                             </div>
 
-                            <div class="row form-inline">
+                            <div class="row form-inline py-3">
                                 <div class="col">
                                     <div class="form-group form-inline">
                                         <label for="adults">Adults:</label>
-                                        <select class="form-control" type="number" id="adults" name="adults" ng-bind="places.adults">
+                                        <select class="form-control" type="number" id="adults" name="adults">
                                             <option>0</option>
                                             <option>1</option>
                                             <option>2</option>
@@ -155,7 +155,7 @@
                                 </div>
                             </div>
 
-                            <div class="row form-inline py-2">
+                            <div class="row form-inline py-4">
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="datedepart">Depart:</label>
