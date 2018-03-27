@@ -24,12 +24,6 @@
         var app = angular.module('alohaApp', []);
         app.controller('JourneyController', function ($scope) {
             $scope.places = [
-            {
-                    "shortname": "Anywhere!",
-                    "longname": "Your vacation awaits...",
-                    "filename": "destunknown.jpg",
-                    "activities": ""
-                },
                 {
                     "shortname": "Brisbane",
                     "longname": "Brisbane, Australia",
@@ -60,7 +54,89 @@
                     "filename": "destcancun.jpg",
                     "activities": ["Parks and Recreation", "Beaches", "Boating", "Snorkeling"]
                 }
-            ]
+            ];
+            $scope.selectedplace = {
+                "shortname": "Anywhere!",
+                "longname": "Your vacation awaits...",
+                "filename": "destunknown.jpg",
+                "activities": ""
+            }
+        });
+        // Super thanks to Alexander Puchkov for the numbers-only directive: https://codepen.io/apuchkov/pen/ILjFr
+        app.directive('numbersOnly', function () {
+            return {
+                require: 'ngModel',
+                link: function (scope, element, attr, ngNumberController) {
+                    function fromUser(text) {
+                        if (text) {
+                            var transformedInput = text.replace(/[^0-9]/g, '');
+
+                            if (transformedInput !== text) {
+                                ngNumberController.$setViewValue(transformedInput);
+                                ngNumberController.$render();
+                            }
+                            return transformedInput;
+                        }
+                        return undefined;
+                    }
+                    ngNumberController.$parsers.push(fromUser);
+                }
+            };
+        });
+        // Controller function and passing $http service and $scope var.
+        app.controller('postReserveController', function ($scope, $http) {
+            // create a blank object to handle form data.
+            $scope.reserve = {};
+            // calling our submit function.
+            $scope.submitForm = function () {
+                // Posting data to php file
+                $http({
+                    method: 'POST',
+                    url: 'post_reserve_data.php',
+                    data: $scope.reserve, //forms user object
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+                    .success(function (data) {
+                        if (data.errors) {
+                            // Showing errors.
+                            $scope.errorShortname = data.errors.shortname;
+                            $scope.errorAdults = data.errors.adults;
+                            $scope.errorChildren = data.errors.children;
+                            $scope.errorDepart = data.errors.depart;
+                            $scope.errorReturn = data.errors.return;
+                        } else {
+                            $scope.message = data.message;
+                        }
+                    })
+            }
+                    });
+        // Controller function and passing $http service and $scope var.
+        app.controller('postUserController', function ($scope, $http) {
+            // create a blank object to handle form data.
+            $scope.user = {};
+            // calling our submit function.
+            $scope.submitForm = function () {
+                // Posting data to php file
+                $http({
+                    method: 'POST',
+                    url: 'post_user_data.php',
+                    data: $scope.user, //forms user object
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+                    .success(function (data) {
+                        if (data.errors) {
+                            // Showing errors.
+                            $scope.errorFirstname = data.errors.firstname;
+                            $scope.errorLastname = data.errors.lastname;
+                            $scope.errorEmail = data.errors.email;
+                            $scope.errorUsername = data.errors.username;
+                            $scope.errorPassword = data.errors.password;
+                            $scope.errorUser = data.errors.user;
+                        } else {
+                            $scope.message = data.message;
+                        }
+                    });
+            }
         });
     </script>
 
@@ -98,16 +174,15 @@
             <!-- <div class="parallaxlayer frontitem" ng-controller="JourneyController"> -->
             <div class="container">
                 <div class="row">
-                    <div class="col-sm">
+                    <div class="col-sm mx-auto">
                         <h3>Make your reservation</h3>
                         <form class="textbox" action="#">
                             <div class="form-group">
                                 <label for="destination">Choose a destination:</label>
+                                <span ng-show="errorShortname">{{ errorShortname }}</span>
                                 <select ng-model="selectedplace" ng-options="city.shortname for city in places">
-                                        <option value="">Anywhere!</option>
                                 </select>
                             </div>
-                            <p>NameCheck: {{ selectedplace.shortname }} selected.</p>
 
                             <p>Select your activities:</p>
                             <div class="form-check pb-2" ng-repeat="fun in selectedplace.activities">
@@ -120,37 +195,16 @@
                                 <div class="col">
                                     <div class="form-group form-inline">
                                         <label for="adults">Adults:</label>
-                                        <select class="form-control" type="number" id="adults" name="adults">
-                                            <option>0</option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
-                                        </select>
+                                        <span ng-show="errorAdults">{{ errorAdults }}</span>
+                                        <input class="form-control" type="number" min="0" max="42" ng-pattern="/[0-9]{2}/" id="adults" name="adults" ng-model="reserve.adults"></input>
                                     </div>
                                 </div>
 
                                 <div class="col">
                                     <div class="form-group form-inline">
                                         <label for="children">Children:</label>
-                                        <select class="form-control" type="number" id="children" name="children">
-                                            <option>0</option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
-                                            <option>7</option>
-                                            <option>8</option>
-                                            <option>9</option>
-                                            <option>10</option>
-                                            <option>11</option>
-                                            <option>12</option>
-                                            <option>13</option>
-                                        </select>
+                                        <span ng-show="errorChildren">{{ errorChildren }}</span>
+                                        <input class="form-control" type="number" min="0" max="42" ng-pattern="/[0-9]{2}/" id="children" name="children" ng-model="reserve.children"></input>
                                     </div>
                                 </div>
                             </div>
@@ -159,14 +213,16 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="datedepart">Depart:</label>
-                                        <input class="form-control" type="date" id="datedepart" name="datedepart" placeholder="enter your email...">
+                                        <span ng-show="errorDepart">{{ errorDepart }}</span>
+                                        <input class="form-control" type="date" id="datedepart" name="datedepart" ng-model="reserve.depart">
                                     </div>
                                 </div>
 
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="datereturn">Return:</label>
-                                        <input class="form-control" type="date" id="datereturn" name="datereturn" placeholder="choose a password...">
+                                        <span ng-show="errorReturn">{{ errorReturn }}</span>
+                                        <input class="form-control" type="date" id="datereturn" name="datereturn" ng-model="reserve.return">
                                     </div>
                                 </div>
                             </div>
@@ -174,58 +230,58 @@
                             <button class="float-sm-left btn btn-secondary" type="reset">Reset</button>
                             <button class="float-sm-right btn btn-primary" type="accept">Accept Trip Details</button>
                         </form>
-                        </div>
-                        <!-- end choice box -->
-                        <div class="col-sm">
-                            <img class="mx-auto" ng-src="images/{{ selectedplace.filename }}" alt="Vacation Photo">
-                            <p>{{ selectedplace.longname }}</p>
-                            <img class="mx-auto" src="images/alohatravelogo.svg" class="img-thumbnail" alt="Aloha Travel Logo">
-                            <!-- <img class="mx-auto" src="images/iphone.png" alt="iphone temp"> -->
-                            <!-- replace the iphone with a map function -->
-                        </div>
-                        <!-- end iphone box -->
-                        <div class="col-sm">
-                            <h3>Enter your contact information</h3>
-                            <form class="textbox" action="#">
-                                <div class="form-group">
-                                    <label for="firstname">First Name</label>
-                                    <input class="form-control" type="text" id="firstname" name="firstname" placeholder="enter your first name...">
-                                </div>
-                                <div class="form-group">
-                                    <label for="lastname">Last Name</label>
-                                    <input class="form-control" type="text" id="lastname" name="lastname" placeholder="enter your last name...">
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input class="form-control" type="text" id="email" name="email" placeholder="enter your email...">
-                                </div>
-                                <div class="form-group">
-                                    <label for="username">Username</label>
-                                    <input class="form-control" type="text" id="username" name="username" placeholder="choose a username...">
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input class="form-control" type="password" id="password" name="password" placeholder="choose a password...">
-                                </div>
-                                <button class="float-sm-left btn btn-secondary" type="reset">Reset</button>
-                                <button class="float-sm-right btn btn-success" type="submit">Submit</button>
-                            </form>
-                        </div>
-                        <!-- end register box -->
                     </div>
-                    <!-- end row two -->
+                    <!-- end choice box -->
+                    <div class="col-sm mx-auto">
+                        <img class="mx-auto" ng-src="images/{{ selectedplace.filename }}" alt="Vacation Photo">
+                        <p>{{ selectedplace.longname }}</p>
+                        <img class="mx-auto" src="images/alohatravelogo.svg" class="img-thumbnail" alt="Aloha Travel Logo">
+                        <!-- <img class="mx-auto" src="images/iphone.png" alt="iphone temp"> -->
+                        <!-- replace the iphone with a map function -->
+                    </div>
+                    <!-- end iphone box -->
+                    <div class="col-sm mx-auto">
+                        <h3>Enter your contact information</h3>
+                        <form class="textbox" action="#">
+                            <div class="form-group">
+                                <label for="firstname">First Name</label>
+                                <input class="form-control" type="text" id="firstname" name="firstname" placeholder="enter your first name..." ng-model="user.firstname">
+                            </div>
+                            <div class="form-group">
+                                <label for="lastname">Last Name</label>
+                                <input class="form-control" type="text" id="lastname" name="lastname" placeholder="enter your last name..." ng-model="user.lastname">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input class="form-control" type="text" id="email" name="email" placeholder="enter your email..." ng-model="user.email">
+                            </div>
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input class="form-control" type="text" id="username" name="username" placeholder="choose a username..." ng-model="user.username">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input class="form-control" type="password" id="password" name="password" placeholder="choose a password..." ng-model="user.password">
+                            </div>
+                            <button class="float-sm-left btn btn-secondary" type="reset">Reset</button>
+                            <button class="float-sm-right btn btn-success" type="submit">Submit</button>
+                        </form>
+                    </div>
+                    <!-- end register box -->
                 </div>
+                <!-- end row two -->
             </div>
         </div>
-        <!-- end parallax -->
+    </div>
+    <!-- end parallax -->
 
-        <!-- jQuery, Popper, Bootstrap and custom javascript -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
+    <!-- jQuery, Popper, Bootstrap and custom javascript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
 </body>
 
