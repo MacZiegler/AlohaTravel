@@ -43,6 +43,11 @@ h6 {
     overflow-x: hidden;
     -webkit-perspective: 300px;
     perspective: 300px;
+    background-image: url('../images/planeneargate.jpg');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .parallaxpart {
