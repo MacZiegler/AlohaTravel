@@ -1,0 +1,29 @@
+{
+  "records": [
+    {
+      "shortname": "Brisbane",
+      "longname": "Brisbane, Australia",
+      "activities": [ "City Tours", "Sports", "Cycling", "Museums", "Boating" ]
+    },
+    {
+      "shortname": "Vancouver",
+      "name": "Vancouver, Canada",
+      "activities": [ "Museums", "Sailing", "Beach", "Hiking", "Boating" ]
+    },
+    {
+      "shortname": "New York City",
+      "name": "New York City, United States",
+      "activities": [ "Museums", "Theatre", "Parks and Recreation", "City Tours" ]
+    },
+    {
+      "shortname": "Berlin",
+      "name": "Berlin, Germany",
+      "activities": [ "City Tours", "Museums", "Cycling" ]
+    },
+    {
+      "shortname": "Cancun",
+      "name": "Cancun, Mexico",
+      "activities": [ "Parks and Recreation", "Beaches", "Boating", "Snorkeling" ]
+    }
+  ]
+}
