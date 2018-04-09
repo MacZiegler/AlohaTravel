@@ -18,142 +18,16 @@
 
     <!-- angularJS, links found on the home page at https://angularjs.org/ -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <!-- <script src="js/app.js"></script> -->
-
-    <script>
-        var app = angular.module('alohaApp', []);
-        app.controller('JourneyController', function ($scope) {
-            $scope.places = [
-                {
-                    "shortname": "Brisbane",
-                    "longname": "Brisbane, Australia",
-                    "filename": "destbrisbane.jpg",
-                    "activities": ["City Tours", "Sports", "Cycling", "Museums", "Boating"]
-                },
-                {
-                    "shortname": "Vancouver",
-                    "longname": "Vancouver, Canada",
-                    "filename": "destvancouver.jpg",
-                    "activities": ["Museums", "Sailing", "Beach", "Hiking", "Boating"]
-                },
-                {
-                    "shortname": "New York City",
-                    "longname": "New York City, United States",
-                    "filename": "destnewyorkcity.jpg",
-                    "activities": ["Museums", "Theatre", "Parks and Recreation", "City Tours"]
-                },
-                {
-                    "shortname": "Berlin",
-                    "longname": "Berlin, Germany",
-                    "filename": "destberlin.jpg",
-                    "activities": ["City Tours", "Museums", "Cycling"]
-                },
-                {
-                    "shortname": "Cancun",
-                    "longname": "Cancun, Mexico",
-                    "filename": "destcancun.jpg",
-                    "activities": ["Parks and Recreation", "Beaches", "Boating", "Snorkeling"]
-                }
-            ];
-            $scope.selectedplace = {
-                "shortname": "Anywhere!",
-                "longname": "Your vacation awaits...",
-                "filename": "destunknown.jpg",
-                "activities": ""
-            }
-        });
-        // Super thanks to Alexander Puchkov for the numbers-only directive: https://codepen.io/apuchkov/pen/ILjFr
-        app.directive('numbersOnly', function () {
-            return {
-                require: 'ngModel',
-                link: function (scope, element, attr, ngNumberController) {
-                    function fromUser(text) {
-                        if (text) {
-                            var transformedInput = text.replace(/[^0-9]/g, '');
-
-                            if (transformedInput !== text) {
-                                ngNumberController.$setViewValue(transformedInput);
-                                ngNumberController.$render();
-                            }
-                            return transformedInput;
-                        }
-                        return undefined;
-                    }
-                    ngNumberController.$parsers.push(fromUser);
-                }
-            };
-        });
-        // Controller function and passing $http service and $scope var.
-        app.controller('postReserveController', function ($scope, $http) {
-            // create a blank object to handle form data.
-            $scope.reserve = {};
-            // calling our submit function.
-            $scope.submitForm = function () {
-                // Posting data to php file
-                $http({
-                    method: 'POST',
-                    url: 'post_reserve_data.php',
-                    data: $scope.reserve, //forms user object
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                })
-                    .success(function (data) {
-                        if (data.errors) {
-                            // Showing errors.
-                            $scope.errorShortname = data.errors.shortname;
-                            $scope.errorAdults = data.errors.adults;
-                            $scope.errorChildren = data.errors.children;
-                            $scope.errorDepart = data.errors.depart;
-                            $scope.errorReturn = data.errors.return;
-                        } else {
-                            $scope.message = data.message;
-                        }
-                    })
-            }
-        });
-        // Controller function and passing $http service and $scope var.
-        app.controller('postUserController', function ($scope, $http) {
-            // create a blank object to handle form data.
-            $scope.user = {};
-            // calling our submit function.
-            $scope.submitForm = function () {
-                // Posting data to php file
-                $http({
-                    method: 'POST',
-                    url: 'post_user_data.php',
-                    data: $scope.user, //forms user object
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                })
-                    .success(function (data) {
-                        if (data.errors) {
-                            // Showing errors.
-                            $scope.errorFirstname = data.errors.firstname;
-                            $scope.errorLastname = data.errors.lastname;
-                            $scope.errorEmail = data.errors.email;
-                            $scope.errorUsername = data.errors.username;
-                            $scope.errorPassword = data.errors.password;
-                            $scope.errorUser = data.errors.user;
-                        } else {
-                            $scope.message = data.message;
-                        }
-                    });
-            }
-        });
-    </script>
+    <script src="js/app.js"></script>
 
 </head>
 
 <body ng-app="alohaApp" ng-controller="JourneyController">
-    <!-- <div class="parallax"> -->
     <div class="container-flex">
-        <!-- <div class="parallaxpart"> -->
-        <!-- <div class="photoback"></div> -->
-        <!-- <div class="parallaxlayer photoback"></div> -->
 
         <nav class="navbar navbar-expand-sm bg-primary navbar-light">
             <a class="navbar-brand" href="#">
                 <img src="images/alohatravelogo.svg" alt="Aloha Travel Logo" style="width:7rem">
-                <!-- original logo found at http://www.gtoad.com/gallery/omega-travel-logo/ -->
-                <!-- ...and at https://thelogocompany.net/portfolio/ -->
             </a>
 
             <!-- Toggler/collapsibe Button -->
@@ -186,24 +60,30 @@
         <!-- end navbar -->
 
         <div>
-            <!-- <div class="parallaxlayer frontitem" ng-controller="JourneyController"> -->
             <div class="container mt-4">
                 <div class="row">
                     <div class="col-sm mx-auto">
                         <h3>Make your reservation</h3>
-                        <form class="textbox" action="#">
+
+                        <form name="placeform" id="placeform" class="textbox" action="" ng-submit="processinput()">
                             <div class="form-group">
                                 <label for="destination">Choose a destination:</label>
                                 <span ng-show="errorShortname">{{ errorShortname }}</span>
-                                <select ng-model="selectedplace" ng-options="city.shortname for city in places">
+                                <select required ng-model="selectedplace" ng-options="city.shortname for city in places track by city.shortname">
                                 </select>
                             </div>
 
-                            <p>Select your activities:</p>
-                            <div class="form-check pb-2" ng-repeat="fun in selectedplace.activities">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input" value="{{ fun }}" ng-bind="fun.activities">{{ fun }}
-                                </label>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <p>Select your activities:</p>
+                                </div>
+                                <div class="col-sm">
+                                    <div class="form-check pb-2" ng-repeat="fun in selectedplace.activities">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" value="{{ fun }}" ng-model="selectedplace.choices[fun]">{{ fun }}
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="row form-inline py-3">
@@ -211,7 +91,7 @@
                                     <div class="form-group form-inline">
                                         <label for="adults">Adults:</label>
                                         <span ng-show="errorAdults">{{ errorAdults }}</span>
-                                        <input class="form-control" type="number" min="0" max="42" id="adults" name="adults" ng-model="reserve.adults"></input>
+                                        <input required class="form-control" type="number" min="1" max="42" id="adults" name="adults" ng-model="selectedplace.adults"></input>
                                     </div>
                                 </div>
 
@@ -219,7 +99,7 @@
                                     <div class="form-group form-inline">
                                         <label for="children">Children:</label>
                                         <span ng-show="errorChildren">{{ errorChildren }}</span>
-                                        <input class="form-control" type="number" min="0" max="42" id="children" name="children" ng-model="reserve.children"></input>
+                                        <input class="form-control" type="number" min="0" max="42" id="children" name="children" ng-model="selectedplace.children"></input>
                                     </div>
                                 </div>
                             </div>
@@ -227,37 +107,106 @@
                             <div class="row form-inline py-4">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="datedepart">Depart:</label>
+                                        <label for="depart">Depart:</label>
                                         <span ng-show="errorDepart">{{ errorDepart }}</span>
-                                        <input class="form-control" type="date" id="datedepart" name="datedepart" ng-model="reserve.depart">
+                                        <input required class="form-control" type="date" id="depart" name="depart" ng-model="selectedplace.depart">
                                     </div>
                                 </div>
 
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="datereturn">Return:</label>
+                                        <label for="return">Return:</label>
                                         <span ng-show="errorReturn">{{ errorReturn }}</span>
-                                        <input class="form-control" type="date" id="datereturn" name="datereturn" ng-model="reserve.return">
+                                        <input required class="form-control" type="date" id="return" name="return" ng-model="selectedplace.return">
                                     </div>
                                 </div>
                             </div>
 
-                            <button class="float-sm-left btn btn-secondary" type="reset">Reset</button>
-                            <button class="float-sm-right btn btn-primary" type="accept">Accept Trip Details</button>
+                            <button class="float-sm-left btn btn-secondary" type="reset" id="resetbutton" ng-click="resetForm()" ng-disabled="!isPlaceChanged()">Reset</button>
+                            <!-- <button class="float-sm-right btn btn-primary" type="submit" ng-model-options="reserve.accept">Accept Trip Details</button> -->
+                            <!-- <button class="float-sm-right btn btn-primary" type="submit" ng-disabled="selectwhere.$invalid"> -->
+                                    <button class="float-sm-right btn btn-primary" type="submit" ng-click=”formsubmit(placeform.$valid)” ng-disabled="placeform.$valid">
+                                            Accept Trip Details
+                            </button>
                         </form>
                     </div>
                     <!-- end choice box -->
                     <div class="col-sm mx-auto">
                         <img class="mx-auto" ng-src="images/{{ selectedplace.filename }}" alt="Vacation Photo">
                         <p>{{ selectedplace.longname }}</p>
+                        <div>
+                            <svg class="choiceicon" role="img" aria-label="Beaches" ng-if="selectedplace.choices.Beaches">
+                                <title>Beaches</title>
+                                <use xlink:href="#sunbed" />
+                            </svg>
+                            <svg class="choiceicon" role="img" aria-label="Boating" ng-if="selectedplace.choices.Boating">
+                                <title>Boating</title>
+                                <use xlink:href="#yacht" />
+                            </svg>
+                            <svg class="choiceicon" role="img" aria-label="City Tours" ng-if="selectedplace.choices.City_Tours">
+                                <title>City Tours</title>
+                                <use xlink:href="#bus" />
+                            </svg>
+                            <svg class="choiceicon" role="img" aria-label="Cycling" ng-if="selectedplace.choices.Cycling">
+                                <title>Cycling</title>
+                                <use xlink:href="#cycle" />
+                            </svg>
+                            <svg class="choiceicon" role="img" aria-label="Hiking" ng-if="selectedplace.choices.Hiking">
+                                <title>Hiking</title>
+                                <use xlink:href="#hiking" />
+                            </svg>
+                            <svg class="choiceicon" role="img" aria-label="Museums" ng-if="selectedplace.choices.Museums">
+                                <title>Museums</title>
+                                <use xlink:href="#museum" />
+                            </svg>
+                            <svg class="choiceicon" role="img" aria-label="Parks and Recreation" ng-if="selectedplace.choices.Parks_and_Recreation">
+                                <title>Parks and Recreation</title>
+                                <use xlink:href="#park" />
+                            </svg>
+                            <svg class="choiceicon" role="img" aria-label="Sailing" ng-if="selectedplace.choices.Sailing">
+                                <title>Sailing</title>
+                                <use xlink:href="#sailboat" />
+                            </svg>
+                            <svg class="choiceicon" role="img" aria-label="Snorkeling" ng-if="selectedplace.choices.Snorkeling">
+                                <title>Snorkeling</title>
+                                <use xlink:href="#snorkel" />
+                            </svg>
+                            <svg class="choiceicon" role="img" aria-label="Sports" ng-if="selectedplace.choices.Sports">
+                                <title>Sports</title>
+                                <use xlink:href="#running" />
+                            </svg>
+                            <svg class="choiceicon" role="img" aria-label="Theatre" ng-if="selectedplace.choices.Theatre">
+                                <title>Theatre</title>
+                                <use xlink:href="#drama" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p>
+                                <span ng-if="selectedplace.adults">{{ selectedplace.adults }} adults</span>
+                                <span ng-if="selectedplace.children"> traveling with {{ selectedplace.children }} children</span>
+                                <span ng-if="selectedplace.depart">
+                                    <br/>leaving on {{ selectedplace.depart | date : "fullDate" }}</span>
+                                <span ng-if="selectedplace.return">
+                                    <br/>and returning on {{ selectedplace.return | date : "fullDate" }}</span>
+                            </p>
+                        </div>
                         <img class="mx-auto" src="images/alohatravelogo.svg" class="img-thumbnail" alt="Aloha Travel Logo">
                         <!-- <img class="mx-auto" src="images/iphone.png" alt="iphone temp"> -->
                         <!-- replace the iphone with a map function -->
+                        <div class="container textbox">
+                            <p>{{ message }}</p>
+                            <pre>
+                                    {{ selectedplace }}
+                                </pre>
+                            <pre>
+                                    {{ fun }}
+                                </pre>
+                        </div>
                     </div>
                     <!-- end iphone box -->
-                    <div class="col-sm mx-auto">
+                    <div class="col-sm mx-auto" ng-if="data.success">
                         <h3>Enter your contact information</h3>
-                        <form class="textbox" action="#">
+                        <form class="textbox" name="userform" id="userform" action="">
                             <div class="form-group">
                                 <label for="firstname">First Name</label>
                                 <input class="form-control" type="text" id="firstname" name="firstname" placeholder="enter your first name..." ng-model="user.firstname">
@@ -289,6 +238,70 @@
         </div>
     </div>
     <!-- end parallax -->
+
+    <svg style="display: none;">
+        <symbol id="sunbed" viewBox="0 0 60 60">
+            <path d="M4.037 51h28c1.35 0 2.62-.374 3.675-1.082l17.12-17.094A3.974 3.974 0 0 0 54 29.996c0-1.07-.415-2.075-1.168-2.828S51.074 26 50.004 26a3.97 3.97 0 0 0-2.828 1.168L33.96 40.385l12.666-24.93c.01-.022.01-.045.018-.066.62-.69 1.744-.883 2.614-.38.495.287.854.74 1.008 1.274.15.52.087 1.06-.177 1.516a1 1 0 1 0 1.732 1c.533-.924 1.845-1.246 2.83-.674 1.028.593 1.417 1.85.868 2.806 0 0 0 .002-.002.003a1 1 0 1 0 1.732 1c3.645-6.313 1.364-14.223-5.19-18.01C49.876 2.666 47.44 2 45.01 2c-4.65 0-8.816 2.405-11.142 6.435a1 1 0 1 0 1.734.996c.53-.912 1.872-1.224 2.863-.65.496.286.854.738 1.008 1.273.15.52.088 1.06-.175 1.517a.998.998 0 0 0 .366 1.366c.477.275 1.09.112 1.366-.366.534-.924 1.844-1.245 2.833-.674a2.16 2.16 0 0 1 1.007 1.273c.15.52.088 1.06-.175 1.515a.97.97 0 0 0-.12.393L30.385 43H4.038c-2.206 0-4 1.794-4 4s1.794 4 4 4z"
+            />
+            <path d="M58.362 54.948L55.414 52l-8.5-8.5 12.793-12.793a1 1 0 0 0-1.414-1.414L35.586 52H0v5h57.513c.022 0 .042-.008.064-.01l.717.717a.997.997 0 0 0 1.413 0 1 1 0 0 0 0-1.414l-1.345-1.345zM38.414 52l7.086-7.086L52.586 52H38.414zM7 14h2.07a7.953 7.953 0 0 0 1.618 3.898L9.22 19.364a1 1 0 0 0 1.415 1.414l1.467-1.466A7.953 7.953 0 0 0 16 20.932V23a1 1 0 0 0 2 0v-2.07a7.953 7.953 0 0 0 3.896-1.618l1.467 1.466a.997.997 0 0 0 1.414 0 1 1 0 0 0 0-1.414l-1.467-1.466A7.953 7.953 0 0 0 24.93 14H27a1 1 0 0 0 0-2h-2.07a7.953 7.953 0 0 0-1.618-3.898l1.467-1.466a1 1 0 0 0-1.415-1.414l-1.467 1.466A7.953 7.953 0 0 0 18 5.068V3a1 1 0 0 0-2 0v2.07a7.953 7.953 0 0 0-3.896 1.618l-1.467-1.466a1 1 0 0 0-1.414 1.414l1.467 1.466A7.937 7.937 0 0 0 9.07 12H7a1 1 0 0 0 0 2z"
+            />
+        </symbol>
+        <symbol id="yacht" viewBox="0 0 448.508 448.508">
+            <path d="M131.896 304.53l.03.008c18.194 5.075 40.747 10.712 64.278 13.143a280.993 280.993 0 0 1-6.38-2.065c-23.42-7.125-45.466-11.48-66.84-13.19 2.976.622 5.94 1.31 8.88 2.098l.032.007zM218.874 325.325c-29.414 0-59.245-6.4-88.67-14.607a155.338 155.338 0 0 0-40.198-5.3c-31.157 0-62.073 9.45-87.52 28.54 24.655-10.414 48.674-15.175 72.857-15.174 21.1 0 42.328 3.626 64.192 10.285 19.7 6.68 41.592 10.486 63.45 10.486 19.407 0 38.782-3.01 56.564-9.672a292.28 292.28 0 0 1-33.716-4.686 194.4 194.4 0 0 1-6.96.127zM55.73 275.2c21.562-6.917 44.19-10.425 67.26-10.425 19.828 0 39.617 2.61 58.816 7.755l.045.012.045.013c33.708 9.403 78.06 20.197 122.182 20.197 24.01 0 46.25-3.143 67.127-9.517l77.304-148.526S286.15 118.332 2.486 257.684v40.646h4.137c15.162-9.757 31.62-17.52 49.106-23.13zm183.524-82.976c6.627 0 12 5.373 12 12s-5.373 12-12 12-12-5.373-12-12c0-6.628 5.373-12 12-12zm-38 12c6.627 0 12 5.373 12 12s-5.373 12-12 12-12-5.373-12-12 5.373-12 12-12zm-36.5 12c6.627 0 12 5.373 12 12s-5.373 12-12 12-12-5.373-12-12 5.373-12 12-12z"
+            />
+            <path d="M179.473 281.24a218.37 218.37 0 0 0-56.485-7.447C79.2 273.793 35.76 287.07 0 313.9c34.646-14.636 68.397-21.326 102.382-21.324 29.65 0 59.48 5.096 90.202 14.453 27.684 9.386 58.448 14.737 89.164 14.737 50.85 0 101.553-14.673 137.844-50-37.338 21.854-76.166 30-115.515 30-41.338 0-83.25-8.99-124.604-20.527zM96.575 132.91l3.66 12.042c6.722-2.837 25.23-10.244 46.142-15.142a7.505 7.505 0 0 1 9.013 5.592 7.502 7.502 0 0 1-5.593 9.013c-21.55 5.047-40.84 13.108-45.174 14.976l10.625 34.958s93.77-44.118 203.885-60.232L212.968 110.38s-79.13-9.934-149.614 22.61c0 0 14.98 4.626 33.22-.08z"
+            />
+        </symbol>
+        <symbol id="bus" viewBox="0 0 45.437 45.437">
+            <path d="M41.403 11.11c-.37-3.627-.962-6.45-1.897-7.56-3.855-4.565-30.86-4.9-33.925 0-.75 1.2-1.275 4.013-1.628 7.566a2.287 2.287 0 0 0-2.026 2.267v4.443c0 .988.626 1.82 1.5 2.146-.207 6.998-.04 14.3.27 17.93 0 2.803 1.884 2.338 1.884 2.338h1.765v3.026c0 1.2 1.237 2.17 2.76 2.17 1.527 0 2.764-.97 2.764-2.17V40.24h20.533v3.026c0 1.2 1.236 2.17 2.762 2.17 1.524 0 2.76-.97 2.76-2.17V40.24h.58s2.217.304 2.36-1.016c0-3.62.227-11.646.04-19.22a2.28 2.28 0 0 0 1.606-2.178v-4.443c.002-1.202-.928-2.177-2.107-2.273zM12.176 4.2H32.91v3.137H12.177V4.2zm.296 32.467a2.947 2.947 0 1 1 0-5.895 2.947 2.947 0 0 1 0 5.895zm20.328 0a2.948 2.948 0 1 1-.002-5.892 2.948 2.948 0 0 1 .002 5.89zm3.747-12.9H8.54V9.077h28.007v14.69z"
+            />
+        </symbol>
+        <symbol id="cycle" viewBox="0 0 323.361 323.361">
+            <path d="M261.724 134.36c-2.524 0-5.007.17-7.452.468L238.907 82.23a9.95 9.95 0 0 0 2.413-6.503c0-5.522-4.478-10-10-10h-41.25c-5.52 0-10 4.478-10 10s4.48 10 10 10h26.126l-10.622 16.907c-.47-.06-.95-.094-1.432-.08l-89.302 1.294a9.98 9.98 0 0 0 3.623-7.702c0-5.522-4.477-10-10-10h-24.09c-5.523 0-10 4.478-10 10s4.477 10 10 10h1.8a9.96 9.96 0 0 0 1.108 2.604l4.017 6.61-11.084 21.867a61.412 61.412 0 0 0-18.577-2.867C27.65 134.36 0 162.01 0 195.997s27.65 61.637 61.636 61.637c29.35 0 53.957-20.627 60.13-48.14l32.978 1.907a10 10 0 0 0 9.045-4.664l61.88-98.494 9.402 32.186c-20.68 9.958-34.985 31.124-34.985 55.57 0 33.985 27.65 61.636 61.637 61.636s61.637-27.65 61.637-61.637-27.65-61.636-61.636-61.636zm-158.203 1.12l33.33 54.852-13.92-.805c-1.856-17.71-11.246-33.204-24.894-43.228l5.485-10.82zM20 195.996c0-22.958 18.678-41.636 41.636-41.636 3.215 0 6.342.38 9.35 1.073l-18.27 36.044a9.997 9.997 0 0 0 8.342 14.504l40.353 2.336c-5.263 16.964-21.103 29.318-39.774 29.318-22.958 0-41.636-18.678-41.636-41.637zm57.46-9.102l11.354-22.4c7.006 6.052 11.977 14.392 13.742 23.852l-25.096-1.452zm77.986-4.473l-35.633-58.644 73.142-1.06-37.51 59.704zm106.278 55.212c-22.96 0-41.637-18.678-41.637-41.637 0-15.333 8.337-28.747 20.71-35.972l11.328 38.776c1.55 5.303 7.106 8.346 12.402 6.796 5.302-1.55 8.344-7.102 6.795-12.402l-11.33-38.788a41.494 41.494 0 0 1 1.732-.044c22.96 0 41.637 18.678 41.637 41.636 0 22.958-18.677 41.636-41.636 41.636z"
+            />
+        </symbol>
+        <symbol id="hiking" viewBox="0 0 463.507 463.507">
+            <path d="M246.413 78.492c21.688 0 39.255-17.573 39.255-39.25C285.668 17.57 268.1 0 246.413 0 224.76 0 207.17 17.57 207.17 39.24c0 21.677 17.59 39.25 39.243 39.25z"
+            />
+            <path d="M386.604 202.858c0-11.185-9.066-20.25-20.253-20.25h-68.478l-38.62-54.833.127-.933a39.81 39.81 0 0 0-7.912-29.444 39.855 39.855 0 0 0-26.408-15.23c-11.596-1.51-22.592 2.224-30.852 9.225V45.78c0-7.848-6.362-14.218-14.225-14.218H140.59c-7.867 0-14.225 6.37-14.225 14.217V214.73c0 20.68 15.82 37.476 35.98 39.446l-3.044 7.073-23.858 90.137-53.73 72.188c-8.006 10.768-5.794 25.987 4.984 34a24.16 24.16 0 0 0 14.49 4.812c7.423 0 14.73-3.385 19.512-9.795l56.53-75.945a24.248 24.248 0 0 0 4.002-8.29l16.266-61.413 44.52 40.877-6.075 88.604c-.916 13.393 9.178 24.99 22.58 25.908.553.04 1.125.056 1.692.056 12.66 0 23.34-9.82 24.208-22.642l6.882-100.264a24.29 24.29 0 0 0-7.815-19.564l-45.994-42.22 13.992-90.612 19.33 27.435a20.262 20.262 0 0 0 16.553 8.593h70.882l1.34 232.294c0 4.478 3.625 8.1 8.1 8.1 4.48 0 8.1-3.623 8.1-8.1l-1.338-234.036c7.136-3.125 12.152-10.22 12.152-18.512z"
+            />
+        </symbol>
+        <symbol id="museum" viewBox="0 0 316.413 316.413">
+            <path d="M67.132 238.407c2.97 0 5.375-2.41 5.375-5.375V129.005a5.376 5.376 0 0 0-5.375-5.375H41.126a5.377 5.377 0 0 0-5.375 5.375v104.027a5.378 5.378 0 0 0 5.376 5.375h26.006zM171.152 238.407c2.97 0 5.375-2.41 5.375-5.375V129.005a5.374 5.374 0 0 0-5.375-5.375h-26.006a5.377 5.377 0 0 0-5.375 5.375v104.027a5.38 5.38 0 0 0 5.376 5.375h26.006zM275.18 238.407c2.97 0 5.374-2.41 5.374-5.375V129.005a5.374 5.374 0 0 0-5.375-5.375h-26.007a5.37 5.37 0 0 0-5.375 5.375v104.027c0 2.966 2.4 5.375 5.375 5.375h26.006z"
+            />
+            <circle cx="158.144" cy="74.778" r="10.751" />
+            <path d="M312.95 104.62l-152.2-84.2a5.364 5.364 0 0 0-5.202 0L2.775 104.944A5.38 5.38 0 0 0 .17 110.99a5.38 5.38 0 0 0 5.206 4.033h305.547c.047-.005.08 0 .115 0a5.377 5.377 0 0 0 1.91-10.402zm-154.806-8.34c-11.858 0-21.5-9.644-21.5-21.502 0-11.858 9.643-21.5 21.5-21.5 11.863 0 21.502 9.643 21.502 21.5 0 11.858-9.64 21.502-21.502 21.502zM22.76 249.164v13.003a5.378 5.378 0 0 0 5.374 5.375h260.032c2.97 0 5.375-2.41 5.375-5.375v-13.003a5.37 5.37 0 0 0-5.374-5.376H28.134a5.372 5.372 0 0 0-5.375 5.376zM300.093 272.912H16.208a5.378 5.378 0 0 0-5.375 5.376v13.003a5.377 5.377 0 0 0 5.375 5.376h283.886a5.375 5.375 0 0 0 5.376-5.375V278.29a5.38 5.38 0 0 0-5.377-5.376z"
+            />
+        </symbol>
+        <symbol id="park" viewBox="0 0 512 512">
+            <path d="M495.304 478.61h-26.447L419.03 428.52l49.827-50.087h26.447c9.217 0 16.696-7.473 16.696-16.696 0-9.224-7.48-16.697-16.696-16.697H294.956c-9.223 0-16.696 7.473-16.696 16.696 0 9.222 7.473 16.695 16.696 16.695H322.1l49.825 50.087L322.1 478.61h-88.36V366.327a147.9 147.9 0 0 1-50.088-14.926 147.9 147.9 0 0 1-50.087 14.926v112.28H16.695C7.474 478.61 0 486.083 0 495.305 0 504.527 7.473 512 16.696 512h478.61c9.216 0 16.695-7.473 16.695-16.696 0-9.222-7.48-16.695-16.696-16.695zm-126.1-100.175h52.547l-26.27 26.41-26.275-26.41zm0 100.174l26.274-26.412 26.272 26.41h-52.545zM300.413 111.842C297.77 49.722 246.413 0 183.653 0 121.007 0 69.738 49.544 66.922 111.503 25.835 130.953 0 173.635 0 217.043c0 94.06 106.37 150.004 183.652 95.51 77.335 54.53 183.652-1.502 183.652-95.51 0-45.195-26.418-86.027-66.89-105.2z"
+            />
+        </symbol>
+        <symbol id="sailboat" viewBox="0 0 25.962 25.962">
+            <path d="M6.915 20.365l.122.072c.242.143.496.257.754.357l.61.194a5.1 5.1 0 0 0 3.675-.46l.664-.362a4.234 4.234 0 0 1 4.173.073 5.11 5.11 0 0 0 5.037.09l.303-.166a4.22 4.22 0 0 1 2.05-.508l.93-3.283L.115 15.066l4.123 4.67c.92-.06 1.856.145 2.677.63zM14.942 0v14.312l7.382.384C22.93 4.684 14.942 0 14.942 0zM13.232 1.226l-5.57 12.706 5.57.29z"
+            />
+            <path d="M24.207 20.83c-.695 0-1.39.17-2.02.514l-.236.13a5.123 5.123 0 0 1-5.036-.09 4.23 4.23 0 0 0-4.173-.075l-.784.426a4.865 4.865 0 0 1-4.8-.085 4.66 4.66 0 0 0-3.737-.444v1.324a3.396 3.396 0 0 1 3.105.19 6.11 6.11 0 0 0 6.023.108l.785-.427a3.01 3.01 0 0 1 1.43-.362c.533 0 1.06.145 1.52.416a6.36 6.36 0 0 0 6.26.11l.237-.128a2.98 2.98 0 0 1 3.016.094l.05.03v-1.393a4.208 4.208 0 0 0-1.64-.337z"
+            />
+            <path d="M22.186 23.736l-.235.13a5.123 5.123 0 0 1-5.036-.09 4.23 4.23 0 0 0-4.173-.075l-.784.428a4.863 4.863 0 0 1-4.8-.085A4.66 4.66 0 0 0 3.42 23.6v1.323a3.396 3.396 0 0 1 3.105.19 6.11 6.11 0 0 0 6.023.107l.785-.427a3.01 3.01 0 0 1 1.43-.363c.533 0 1.06.145 1.52.416a6.36 6.36 0 0 0 6.26.11l.237-.128a2.99 2.99 0 0 1 3.016.094l.05.03V23.56a4.216 4.216 0 0 0-1.638-.336c-.696 0-1.39.17-2.022.514z"
+            />
+        </symbol>
+        <symbol id="snorkel" viewBox="0 0 212 212">
+            <path d="M212 11.785V163.34c0 25.847-21.028 46.875-46.875 46.875-22.776 0-41.8-16.332-46.003-37.897-6.573-1.028-11.622-6.71-11.622-13.568 0-7.582 6.168-13.75 13.75-13.75h15c7.582 0 13.75 6.168 13.75 13.75 0 6.387-4.383 11.755-10.296 13.293 3.625 10.56 13.647 18.172 25.42 18.172 14.82 0 26.876-12.056 26.876-26.875V11.785c0-5.522 4.478-10 10-10s10 4.478 10 10zm-77.25 34.43h-94C18.28 46.215 0 64.495 0 86.965v11.25c0 12.958 10.542 23.5 23.5 23.5H52c12.958 0 23.5-10.542 23.5-23.5 0-4.687 3.813-8.5 8.5-8.5h7.5c4.687 0 8.5 3.813 8.5 8.5 0 12.958 10.542 23.5 23.5 23.5H152c12.958 0 23.5-10.542 23.5-23.5v-11.25c0-22.47-18.28-40.75-40.75-40.75z"
+            />
+        </symbol>
+        <symbol id="running" viewBox="0 0 512.149 512.149">
+            <path d="M503.427 111.44l-1.253-1.254c-11.776-11.776-30.967-11.802-42.814.035l-46.09 46.575a6.366 6.366 0 0 1-8.844.203L339.808 97.34a33.777 33.777 0 0 0-22.996-8.986h-96.124c-2.27 0-4.44.865-6.082 2.42l-81.47 77.355c-11.935 11.943-12.756 31.196-1.818 42.92 5.844 6.267 13.736 9.718 22.22 9.718h.15c8.412-.044 16.498-3.62 22.086-9.728l57.538-60.893h20.595L119.63 300.217H36.81c-19.633 0-35.778 14.68-36.758 33.422-.52 9.79 2.904 19.093 9.64 26.19 6.638 7 15.97 11.008 25.618 11.008h123.586a8.82 8.82 0 0 0 6.444-2.798l63.32-67.593 53.248 55.684-16.075 102.736c-4.052 17.02 4.114 34.357 19.412 41.198 4.714 2.12 9.72 3.178 14.698 3.178 5.358 0 10.69-1.227 15.598-3.655 9.482-4.696 16.297-13.285 18.777-23.967l27.463-147.306c.53-2.86-.38-5.81-2.445-7.865l-73.295-73.2 58.227-58.137 40.59 40.58c11.334 11.335 31.09 11.335 42.416 0l76.156-76.147c5.622-5.623 8.72-13.11 8.72-21.054 0-7.952-3.1-15.43-8.723-21.052z"
+            />
+            <path d="M406.065 114.837c29.21 0 52.966-23.755 52.966-52.966 0-29.21-23.754-52.965-52.965-52.965-29.21 0-52.966 23.755-52.966 52.966 0 29.212 23.755 52.967 52.965 52.967z"
+            />
+        </symbol>
+        <symbol id="drama" viewBox="0 0 837.393 837.393">
+            <path d="M587.19 42.89c-251.766 0-250.07 49.778-250.07 49.778v138.337c46.76-4.182 78.887-11.315 99.643-17.66 30.896-9.45 43.254-18.96 45.434-20.792 4.64-5.68 11.164-8.57 18.082-8.57 2.88 0 5.815.493 8.722 1.5 10.033 3.472 16.145 13.63 16.145 24.237v199.995c19.525-9.69 40.525-14.617 63.166-14.69 6.012.288 12.48.683 21.482 1.857 8.05 1.553 15.3 3.007 22.793 5.636 14.734 5.142 29.074 12.438 41.898 22.846 23.062 18.236 43.092 46.46 47.125 79.766.665 5.482-3.57 8.666-8.91 7.26-25.622-6.744-45.22-8.074-64.454-9.537l-30.977-1.365-31.21-.475c-17.832.188-39.225.295-59.973 1.65-.312.018-.637.053-.94.072-.09 55.205-12.476 107.135-34.155 152.363 29.63 14.457 62.125 22.47 96.242 22.47 138.158 0 250.158-130.962 250.158-292.442V92.666s1.544-49.775-250.203-49.775zm165.673 271.52c-30.062 23.15-73.36 20.95-100.91-6.597-27.547-27.548-29.746-70.846-6.596-100.91 3.37-4.375 9.762-4.34 13.666-.433l94.27 94.272c3.91 3.905 3.945 10.298-.43 13.667z"
+            />
+            <path d="M500.262 209.72s-45.56 49.785-250.113 49.785C45.612 259.505 0 209.72 0 209.72v292.44c0 161.488 112.01 292.342 250.122 292.342 138.15 0 250.14-130.852 250.14-292.342V209.72zM79.226 472.903c-5.523 0-10.07-4.496-9.357-9.97 4.886-37.628 37.058-66.69 76.017-66.69s71.13 29.062 76.018 66.69c.71 5.476-3.834 9.97-9.357 9.97H79.226zm305.238 98.908c-4.08 33.207-24.146 61.348-47.154 79.66-26.293 20.334-55.646 30.25-88.373 30.34-6.03-.28-12.438-.574-21.492-1.84-8.058-1.562-15.31-2.908-22.802-5.646-14.726-5.15-29.057-12.445-41.853-22.748-23.04-18.227-43.11-46.533-47.157-79.846-.666-5.482 3.567-8.666 8.908-7.258 25.632 6.76 45.274 8.143 64.516 9.518l30.968 1.365 31.165.494c17.82-.09 39.223-.188 60.023-1.65 19.242-1.392 38.85-2.784 64.364-9.606 5.337-1.426 9.56 1.738 8.887 7.218zm36.57-98.908h-133.32c-5.522 0-10.068-4.496-9.356-9.97 4.888-37.628 37.06-66.69 76.018-66.69s71.13 29.062 76.02 66.69c.71 5.474-3.837 9.97-9.36 9.97z"
+            />
+        </symbol>
+    </svg>
 
     <!-- jQuery, Popper, Bootstrap and custom javascript -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
