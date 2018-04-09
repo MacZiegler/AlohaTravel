@@ -7,9 +7,10 @@
 body {
     font-family: Verdana, Tahoma, Geneva, sans-serif;
     /* background: url('../images/planeneargate.jpg'); */
+    /* photo courtesy https://pixabay.com/en/plane-aircraft-airport-jet-3107132/ */
     /* position: fixed; */
-    /* background-repeat: no-repeat; */
-    /* background-size: cover; */
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .display-1,
@@ -32,54 +33,39 @@ h6 {
     /* width: 80%; */
     padding: 5%;
     border-radius: 1rem;
-    background: rgba(240, 230, 220, .5);
+    background: rgba(240, 230, 220, .7);
     box-shadow: 0 0 0.5rem rgba(0, 0, 0, .7);
 }
 
-.parallax {
-    height: 500px;
-    /* fallback for older browsers */
-    min-height: 100vh;
-    overflow-x: hidden;
-    -webkit-perspective: 300px;
-    perspective: 300px;
-    background-image: url('../images/planeneargate.jpg');
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+pre {
+    white-space: normal;
+    word-break: break-all;
+    word-wrap: break-word;
 }
 
-.parallaxpart {
-    position: relative;
-    height: 500px;
-    /* fallback for older browsers */
-    height: 100vh;
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;
+.choiceicon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 15%;
+    fill: white;
+    margin: 0.5rem 1rem 1rem 0;
+    padding: 0.5rem;
+    background: green;
 }
-
-.parallaxlayer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
-
-.frontitem {
-    -webkit-transform: translateZ(90px) scale(.7);
-    transform: translateZ(90px) scale(.7);
-    z-index: 1;
-}
-
-.photoback {
-    position: fixed;
-    background: url('../images/planeneargate.jpg');
-    /* photo courtesy https://pixabay.com/en/plane-aircraft-airport-jet-3107132/ */
-    background-repeat: no-repeat;
-    background-size: cover;
-    -webkit-transform: translateZ(-600px) scale(3);
-    transform: translateZ(-600px) scale(3);
-    z-index: 4;
-}
+input.ng-invalid.ng-touched {
+    border: 2px solid red;
+  }
+  
+  input.ng-valid.ng-touched {
+    border: 2px solid green;
+  }
+  
+  .ng-invalid .btn {
+    background: goldenrod;
+  }
+  
+  .error {
+    color: red;
+    padding-bottom: 10px;
+  }
+  
