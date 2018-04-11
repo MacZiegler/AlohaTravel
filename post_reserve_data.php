@@ -22,8 +22,11 @@ if (empty($_POST['return']))
 
 if (!empty($errors)) {
   $data['errors']  = $errors;
+  $data['success'] = false;
+  $data['message'] = 'Reservation not quite ready';
 } else {
-  $data['message'] = 'Form data is going well';
+  $data['success'] = true;
+  $data['message'] = 'Reservation data is going well';
 }
 // response back.
 echo json_encode($data);
