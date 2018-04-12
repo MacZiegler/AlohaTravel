@@ -22,14 +22,6 @@ app.controller('JourneyController', function ($scope, $http) {
       return !angular.equals($scope.selectedplace, firstplace);
     };
     
-    $scope.submitForm = function () {
-      if ($scope.placeform.$valid) {
-        $('#resetbutton').show()
-        $('#userform').show()
-        $('#placeform').hide()
-      }
-    }
-
     $scope.processinput = function () {
       http({
         method: 'POST',
@@ -49,9 +41,11 @@ app.controller('JourneyController', function ($scope, $http) {
             $scope.errorDepart = data.errors.depart;
             $scope.errorReturn = data.errors.return;
             $scope.message = data.message;
+            $scope.success = data.success;
           } else {
-            // if successful, just bind success message
+            // if successful, just bind success and message
             $scope.message = data.message;
+            $scope.success = data.success;
           }
         });
 
@@ -78,59 +72,4 @@ app.directive('numbersOnly', function () {
       ngNumberController.$parsers.push(fromUser);
     }
   };
-});
-// Controller function and passing $http service and $scope var.
-app.controller('postReserveController', function ($scope, $http) {
-  // create a blank object to handle form data.
-  $scope.reserve = {};
-  // calling our submit function.
-  $scope.submitForm = function () {
-    // Posting data to php file
-    $http({
-      method: 'POST',
-      url: 'process.php',
-      data: $scope.reserve, //forms user object
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    })
-      .success(function (data) {
-        if (data.errors) {
-          // Showing errors.
-          $scope.errorShortname = data.errors.shortname;
-          $scope.errorAdults = data.errors.adults;
-          $scope.errorChildren = data.errors.children;
-          $scope.errorDepart = data.errors.depart;
-          $scope.errorReturn = data.errors.return;
-        } else {
-          $scope.message = data.message;
-        }
-      })
-  }
-});
-// Controller function and passing $http service and $scope var.
-app.controller('postUserController', function ($scope, $http) {
-  // create a blank object to handle form data.
-  $scope.user = {};
-  // calling our submit function.
-  $scope.submitForm = function () {
-    // Posting data to php file
-    $http({
-      method: 'POST',
-      url: 'post_user_data.php',
-      data: $scope.user, //forms user object
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    })
-      .success(function (data) {
-        if (data.errors) {
-          // Showing errors.
-          $scope.errorFirstname = data.errors.firstname;
-          $scope.errorLastname = data.errors.lastname;
-          $scope.errorEmail = data.errors.email;
-          $scope.errorUsername = data.errors.username;
-          $scope.errorPassword = data.errors.password;
-          $scope.errorUser = data.errors.user;
-        } else {
-          $scope.message = data.message;
-        }
-      });
-  }
 });
