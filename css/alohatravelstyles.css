@@ -69,3 +69,8 @@ input.ng-invalid.ng-touched {
     padding-bottom: 10px;
   }
   
+  .checked {
+      color: white;
+      font-weight: bold;
+      background: green;
+  }
