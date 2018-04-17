@@ -52,7 +52,7 @@ pre {
     padding: 0.5rem;
     background: green;
 }
-input.ng-invalid.ng-touched {
+input.ng-invalid {
     border: 2px solid red;
   }
   
@@ -61,16 +61,28 @@ input.ng-invalid.ng-touched {
   }
   
   .ng-invalid .btn {
-    background: goldenrod;
+    background: gray;
   }
   
   .error {
     color: red;
     padding-bottom: 10px;
   }
+<<<<<<< HEAD
   
   .checked {
       color: white;
       font-weight: bold;
       background: green;
+=======
+
+  .choicenotchecked {
+      color: inherit;
+  }
+  
+  .choicechecked {
+      color: green;
+      font-weight: bold;
+      background-color: lightgreen;
+>>>>>>> 4aa3714d4bc57da5620f8a38ac4e8de4a749ce1e
   }

@@ -34,7 +34,8 @@ app.controller('JourneyController', function ($scope, $http) {
       http({
         method: 'POST',
         url: 'post_reserve_data.php',
-        data: $.param($scope.selectedplace),  // pass in data as strings
+        // data: $.param($scope.selectedplace),  // pass in data as strings
+        data: $scope.selectedplace,  // pass in data as strings
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
       })
         .success(function (data) {

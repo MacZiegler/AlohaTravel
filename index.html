@@ -78,9 +78,13 @@
                                     <p>Select your activities:</p>
                                 </div>
                                 <div class="col-sm">
-                                    <div class="form-check pb-2" ng-repeat="fun in selectedplace.activities">
+                                    <div class="form-check pb-2 choicenotchecked" ng-repeat="fun in selectedplace.activities" ng-class="{'choicechecked': fun.ischecked}">
                                         <label class="form-check-label">
+<<<<<<< HEAD
                                             <input type="checkbox" class="form-check-input" value="{{ fun }}" ng-model="selectedplace.choices[fun]" ng-class="{'checked': fun.isChecked}">{{ fun }}
+=======
+                                            <input type="checkbox" class="form-check-input" value="{{ fun }}" ng-model="selectedplace.choices[fun]" >{{ fun }}
+>>>>>>> 4aa3714d4bc57da5620f8a38ac4e8de4a749ce1e
                                         </label>
                                     </div>
                                 </div>
@@ -125,7 +129,7 @@
                             <button class="float-sm-left btn btn-secondary" type="reset" id="resetbutton" ng-click="resetForm()" ng-disabled="!isPlaceChanged()">Reset</button>
                             <!-- <button class="float-sm-right btn btn-primary" type="submit" ng-model-options="reserve.accept">Accept Trip Details</button> -->
                             <!-- <button class="float-sm-right btn btn-primary" type="submit" ng-disabled="selectwhere.$invalid"> -->
-                                    <button class="float-sm-right btn btn-primary" type="submit" ng-click=”formsubmit(placeform.$valid)” ng-disabled="placeform.$valid">
+                                    <button class="float-sm-right btn btn-primary" type="submit" ng-click=”formsubmit(placeform.$valid)” ng-disabled="!placeform.$valid">
                                             Accept Trip Details
                             </button>
                         </form>
