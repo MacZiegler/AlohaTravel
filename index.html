@@ -81,7 +81,7 @@
                                 <div class="col-sm">
                                     <div class="form-check pb-2 choicenotchecked" ng-repeat="fun in selectedplace.activities" ng-class="{'choicechecked': fun.ischecked}">
                                         <label class="form-check-label">
-                                            <input type="checkbox" class="form-check-input" value="{{ fun }}" ng-model="selectedplace.choices[fun]">{{ fun }}
+                                            <input type="checkbox" class="form-check-input" value="{{ fun }}" ng-model="selectedplace.choices[fun]" ng-class="{'checked': fun.isChecked}">{{ fun }}
                                         </label>
                                     </div>
                                 </div>
