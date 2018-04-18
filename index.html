@@ -22,7 +22,8 @@
 
 </head>
 
-<body ng-app="alohaApp" ng-controller="JourneyController">
+<body ng-app="alohaApp" >
+    <div class="mute"></div>
     <div class="container-flex">
 
         <nav class="navbar navbar-expand-sm bg-primary navbar-light">
@@ -60,12 +61,12 @@
         <!-- end navbar -->
 
         <div>
-            <div class="container mt-4">
+            <div class="container mt-4" ng-controller="journeyController">
                 <div class="row">
                     <div class="col-sm mx-auto">
                         <h3>Make your reservation</h3>
 
-                        <form name="placeform" id="placeform" class="textbox" action="" ng-submit="processinput()">
+                        <form name="placeform" id="placeform" class="textbox" action="#" ng-submit="processinput()">
                             <div class="form-group">
                                 <label for="destination">Choose a destination:</label>
                                 <span ng-show="errorShortname">{{ errorShortname }}</span>
@@ -122,13 +123,20 @@
                                 </div>
                             </div>
 
-                            <button class="float-sm-left btn btn-secondary" type="reset" id="resetbutton" ng-click="resetForm()" ng-disabled="!isPlaceChanged()">Reset</button>
-                            <!-- <button class="float-sm-right btn btn-primary" type="submit" ng-model-options="reserve.accept">Accept Trip Details</button> -->
-                            <!-- <button class="float-sm-right btn btn-primary" type="submit" ng-disabled="selectwhere.$invalid"> -->
-                            <button class="float-sm-right btn btn-primary" type="submit" ng-click=”formsubmit(placeform.$valid)” ng-disabled="!placeform.$valid">
+                            <button class="float-sm-left btn btn-secondary" type="reset" id="resetbutton" ng-click="resetForm()" ng-show="isPlaceChanged()">Reset</button>
+                            <button class="float-sm-right btn btn-primary" type="submit" ng-disabled="!placeform.$valid">
                                 Accept Trip Details
                             </button>
                         </form>
+
+                        <!-- <div class="container textbox mt-4">
+                            <p ng-if="success">Success: {{ success }}</p><p ng-if="!success">Still not working.</p>
+                            <p ng-if="message">Message: {{ message }}</p><p ng-if="!message">No message yet.</p>
+                            <pre>
+                                    {{ selectedplace }}
+                                </pre>
+                        </div> -->
+
                     </div>
                     <!-- end choice box -->
                     <div class="col-sm mx-auto">
@@ -182,8 +190,13 @@
                         </div>
                         <div>
                             <p>
-                                <span ng-if="selectedplace.adults">{{ selectedplace.adults }} adults</span>
-                                <span ng-if="selectedplace.children"> traveling with {{ selectedplace.children }} children</span>
+                                    <!-- <span ng-if="selectedplace.adults">{{ selectedplace.adults }} adults</span> -->
+                                    <span ng-if="selectedplace.adults"><ng-pluralize count="selectedplace.adults" when="{'1': '1 adult', 
+                                        'other': '{{selectedplace.adults}} adults'}">
+                                    </ng-pluralize></span>
+                                <span ng-if="selectedplace.children"> traveling with <ng-pluralize count="selectedplace.children" when="{'1': '1 child', 
+                                    'other': '{{selectedplace.children}} children'}">
+                                </ng-pluralize></span>
                                 <span ng-if="selectedplace.depart">
                                     <br/>leaving on {{ selectedplace.depart | date : "fullDate" }}</span>
                                 <span ng-if="selectedplace.return">
@@ -193,42 +206,38 @@
                         <img class="mx-auto" src="images/alohatravelogo.svg" class="img-thumbnail" alt="Aloha Travel Logo">
                         <!-- <img class="mx-auto" src="images/iphone.png" alt="iphone temp"> -->
                         <!-- replace the iphone with a map function -->
-                        <div class="container textbox">
-                            <p>{{ message }}</p>
-                            <pre>
-                                    {{ selectedplace }}
-                                </pre>
-                            <pre>
-                                    {{ fun }}
-                                </pre>
-                        </div>
                     </div>
                     <!-- end iphone box -->
-                    <div class="col-sm mx-auto" ng-if="data.success">
+                    <div class="col-sm mx-auto">
                         <h3>Enter your contact information</h3>
-                        <form class="textbox" name="userform" id="userform" action="">
+                        <form class="textbox" name="userform" id="userform" action="#" ng-submit="processuser()">
                             <div class="form-group">
                                 <label for="firstname">First Name</label>
-                                <input class="form-control" type="text" id="firstname" name="firstname" placeholder="enter your first name..." ng-model="user.firstname">
+                                <input required class="form-control" type="text" id="firstname" name="firstname" placeholder="enter your first name..." ng-model="user.firstname">
+                                <span ng-show="errorFirstname">{{ errorFirstname }}</span>
                             </div>
                             <div class="form-group">
                                 <label for="lastname">Last Name</label>
-                                <input class="form-control" type="text" id="lastname" name="lastname" placeholder="enter your last name..." ng-model="user.lastname">
+                                <input required class="form-control" type="text" id="lastname" name="lastname" placeholder="enter your last name..." ng-model="user.lastname">
+                                <span ng-show="errorLastname">{{ errorLastname }}</span>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input class="form-control" type="text" id="email" name="email" placeholder="enter your email..." ng-model="user.email">
+                                <input required class="form-control" type="text" id="email" name="email" placeholder="enter your email..." ng-model="user.email">
+                                <span ng-show="errorEmail">{{ errorEmail }}</span>
                             </div>
                             <div class="form-group">
                                 <label for="username">Username</label>
-                                <input class="form-control" type="text" id="username" name="username" placeholder="choose a username..." ng-model="user.username">
+                                <input required class="form-control" type="text" id="username" name="username" placeholder="choose a username..." ng-model="user.username">
+                                <span ng-show="errorUsername">{{ errorUsername }}</span>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input class="form-control" type="password" id="password" name="password" placeholder="choose a password..." ng-model="user.password">
+                                <input required class="form-control" type="password" id="password" name="password" placeholder="choose a password..." ng-model="user.password">
+                                <span ng-show="errorPassword">{{ errorPassword }}</span>
                             </div>
-                            <button class="float-sm-left btn btn-secondary" type="reset">Reset</button>
-                            <button class="float-sm-right btn btn-success" type="submit">Submit</button>
+                            <button class="float-sm-left btn btn-secondary" type="reset" id="resetbutton" ng-click="resetInfo()" ng-show="isPersonChanged()">Reset</button>
+                            <button class="float-sm-right btn btn-success" type="submit" ng-disabled="!userform.$valid">Submit</button>
                         </form>
                     </div>
                     <!-- end register box -->

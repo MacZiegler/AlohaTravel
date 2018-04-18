@@ -22,10 +22,8 @@ if (empty($_POST['password']))
 
 if (!empty($errors)) {
   $data['errors']  = $errors;
-  $data['success'] = false;
 } else {
   $data['message'] = 'Form data is going well';
-  $data['success'] = true;
 }
 // response back.
 echo json_encode($data);

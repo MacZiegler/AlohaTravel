@@ -1,34 +1,29 @@
 [
   {
-      "idno": "1",
       "shortname": "Brisbane",
       "longname": "Brisbane, Australia",
       "filename": "destbrisbane.jpg",
       "activities": ["City_Tours", "Sports", "Cycling", "Museums", "Boating"]
   },
   {
-      "idno": "2",
       "shortname": "Vancouver",
       "longname": "Vancouver, Canada",
       "filename": "destvancouver.jpg",
       "activities": ["Museums", "Sailing", "Beaches", "Hiking", "Boating"]
   },
   {
-      "idno": "3",
       "shortname": "New York City",
       "longname": "New York City, United States",
       "filename": "destnewyorkcity.jpg",
       "activities": ["Museums", "Theatre", "Parks_and_Recreation", "City_Tours"]
   },
   {
-      "idno": "4",
       "shortname": "Berlin",
       "longname": "Berlin, Germany",
       "filename": "destberlin.jpg",
       "activities": ["City_Tours", "Museums", "Cycling"]
   },
   {
-      "idno": "5",
       "shortname": "Cancun",
       "longname": "Cancun, Mexico",
       "filename": "destcancun.jpg",
