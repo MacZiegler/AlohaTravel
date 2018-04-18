@@ -5,20 +5,14 @@ $data = array();
 $_POST = json_decode(file_get_contents('php://input'), true);
 
 // checking for blank values.
-if (empty($_POST['firstname']))
-  $errors['firstname'] = 'First name is missing.';
-
-if (empty($_POST['lastname']))
-  $errors['lastname'] = 'Last name is missing.';
-
-if (empty($_POST['email']))
-  $errors['email'] = 'No email is present.';
+if (empty($_POST['name']))
+  $errors['name'] = 'Name is required.';
 
 if (empty($_POST['username']))
-  $errors['username'] = 'No username is entered.';
+  $errors['username'] = 'Username is required.';
 
-if (empty($_POST['password']))
-  $errors['password'] = 'Password is missing.';
+if (empty($_POST['email']))
+  $errors['email'] = 'Email is required.';
 
 if (!empty($errors)) {
   $data['errors']  = $errors;
