@@ -6,11 +6,20 @@
 
 body {
     font-family: Verdana, Tahoma, Geneva, sans-serif;
-    /* background: url('../images/planeneargate.jpg'); */
+    background: url('../images/planeneargate.jpg');
     /* photo courtesy https://pixabay.com/en/plane-aircraft-airport-jet-3107132/ */
-    /* position: fixed; */
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.mute {
+    content: "";
+background: rgba(250, 250, 250, .6);
+top: 0;
+right: 0;
+bottom: 0;
+left: 0;
+position: absolute;
 }
 
 .display-1,
@@ -52,7 +61,7 @@ pre {
     padding: 0.5rem;
     background: green;
 }
-input.ng-invalid.ng-touched {
+input.ng-invalid {
     border: 2px solid red;
   }
   
@@ -61,11 +70,20 @@ input.ng-invalid.ng-touched {
   }
   
   .ng-invalid .btn {
-    background: goldenrod;
+    background: gray;
   }
   
   .error {
     color: red;
     padding-bottom: 10px;
   }
+
+  .choicenotchecked {
+      color: inherit;
+  }
   
+  .choicechecked {
+      color: green;
+      font-weight: bold;
+      background-color: lightgreen;
+  }
